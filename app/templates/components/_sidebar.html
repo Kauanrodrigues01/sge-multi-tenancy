@@ -1,0 +1,67 @@
+<nav class="navbar fixed-top">
+  <div class="container-fluid">
+    <!-- Botão do menu com borda cinza clara -->
+    <button class="navbar-toggler border border-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">
+              <i class="bi bi-speedometer2 fs-4"></i>
+              <span class="ms-1">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-truck fs-4"></i>
+              <span class="ms-1">Fornecedores</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url "brands:brands_list" %}">
+              <i class="bi bi-shop fs-4"></i>
+              <span class="ms-1">Marcas</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-tags fs-4"></i>
+              <span class="ms-1">Categorias</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-box-seam fs-4"></i>
+              <span class="ms-1">Produtos</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-arrow-down-left-square fs-4"></i>
+              <span class="ms-1">Entradas</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-arrow-up-right-square fs-4"></i>
+              <span class="ms-1">Saídas</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <form action="#" method="post" id="logout-form" class="nav-link px-0 align-middle">
+              <button type="submit" class="btn btn-link text-decoration-none text-reset nav-link px-0 align-middle">
+                <i class="bi bi-box-arrow-right fs-4 align-middle"></i>
+                <span class="ms-1 align-middle">Sair</span>
+              </button>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
