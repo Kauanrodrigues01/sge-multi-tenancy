@@ -19,6 +19,11 @@ class BrandListView(ListView):
 
         return queryset.order_by('id')
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_brand_is_active'] = 'active'
+        return context
+    
     
 class BrandCreateView(CreateView):
     model = Brand
@@ -26,6 +31,11 @@ class BrandCreateView(CreateView):
     form_class = BrandForm
     success_url = reverse_lazy('brands:brands_list')
     permission_required = 'brands.add_brand'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_brand_is_active'] = 'active'
+        return context
 
 
 class BrandDetailView(DetailView):
@@ -33,6 +43,11 @@ class BrandDetailView(DetailView):
     template_name = 'brands/brand_detail.html'
     context_object_name = 'brand'
     permission_required = 'brands.view_brand'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_brand_is_active'] = 'active'
+        return context
     
 
 class BrandUpdateView(UpdateView):
@@ -43,6 +58,11 @@ class BrandUpdateView(UpdateView):
     success_url = reverse_lazy('brands:brands_list')
     permission_required = 'brands.change_brand'
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_brand_is_active'] = 'active'
+        return context
+    
 
 class BrandDeleteView(DeleteView):
     model = Brand
@@ -50,3 +70,8 @@ class BrandDeleteView(DeleteView):
     context_object_name = 'brand'
     success_url = reverse_lazy('brands:brands_list')
     permission_required = 'brands.delete_brand'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_brand_is_active'] = 'active'
+        return context

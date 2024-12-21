@@ -19,6 +19,11 @@ class CategoryListView(ListView):
 
         return queryset.order_by('id')
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_category_is_active'] = 'active'
+        return context
+    
     
 class CategoryCreateView(CreateView):
     model = Category
@@ -26,6 +31,11 @@ class CategoryCreateView(CreateView):
     form_class = CategoryForm
     success_url = reverse_lazy('categories:categories_list')
     permission_required = 'categories.add_category'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_category_is_active'] = 'active'
+        return context
 
 
 class CategoryDetailView(DetailView):
@@ -33,6 +43,11 @@ class CategoryDetailView(DetailView):
     template_name = 'categories/category_detail.html'
     context_object_name = 'category'
     permission_required = 'categories.view_category'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_category_is_active'] = 'active'
+        return context
     
 
 class CategoryUpdateView(UpdateView):
@@ -43,6 +58,11 @@ class CategoryUpdateView(UpdateView):
     success_url = reverse_lazy('categories:categories_list')
     permission_required = 'categories.change_category'
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_category_is_active'] = 'active'
+        return context
+    
 
 class CategoryDeleteView(DeleteView):
     model = Category
@@ -50,3 +70,8 @@ class CategoryDeleteView(DeleteView):
     context_object_name = 'category'
     success_url = reverse_lazy('categories:categories_list')
     permission_required = 'categories.delete_category'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_category_is_active'] = 'active'
+        return context
