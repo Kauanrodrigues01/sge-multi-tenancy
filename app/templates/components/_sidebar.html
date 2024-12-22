@@ -41,7 +41,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ page_inflow_is_active|default:'' }}" href="{% url 'inflows:inflows_list' %}">
               <i class="bi bi-arrow-down-left-square fs-4"></i>
               <span class="ms-1">Entradas</span>
             </a>
