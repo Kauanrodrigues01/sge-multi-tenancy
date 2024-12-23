@@ -32,7 +32,9 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 # Application definition
 
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    'jazzmin',
+]
 
 LOCAL_APPS = [
     'brands',
@@ -41,10 +43,10 @@ LOCAL_APPS = [
     'products',
     'inflows',
     'outflows',
+    'dashboard',
 ]
 
 DJANGO_APPS = [
-    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

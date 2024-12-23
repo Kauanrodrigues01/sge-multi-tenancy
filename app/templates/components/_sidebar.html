@@ -11,7 +11,7 @@
       <div class="offcanvas-body">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#">
+            <a class="nav-link {{ page_dashboard_is_active|default:'' }}" aria-current="page" href="{% url 'dashboard:home' %}">
               <i class="bi bi-speedometer2 fs-4"></i>
               <span class="ms-1">Dashboard</span>
             </a>
@@ -54,6 +54,7 @@
           </li>
           <li class="nav-item">
             <form action="#" method="post" id="logout-form" class="nav-link px-0 align-middle">
+              {% csrf_token %}
               <button type="submit" class="btn btn-link text-decoration-none text-reset nav-link px-0 align-middle">
                 <i class="bi bi-box-arrow-right fs-4 align-middle"></i>
                 <span class="ms-1 align-middle">Sair</span>

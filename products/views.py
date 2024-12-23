@@ -4,6 +4,7 @@ from brands.models import Brand
 from categories.models import Category
 from .models import Product
 from .forms import ProductForm
+from utils.metrics import get_products_metrics
 
 
 class ProductListView(ListView):
@@ -34,14 +35,14 @@ class ProductListView(ListView):
         if filters:
             queryset = queryset.filter(**filters)
 
-        return queryset
+        return queryset.order_by('-id')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         context['brands'] = Brand.objects.all()
         context['page_product_is_active'] = 'active'
-        print(context['categories'])
+        context['products_metrics'] = get_products_metrics()
         return context
 
 

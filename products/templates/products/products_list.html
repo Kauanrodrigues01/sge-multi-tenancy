@@ -6,10 +6,12 @@ SGE - Produtos
 
 {% block content %}
 
+{% include 'components/_products_metrics.html' %}
+
 <div class="mb-4"></div>
 
 <div class="row mb-3">
-  <div class="col-md-6">
+  <div class="col-md-6 mb-3 mb-md-0">
     <form method="get" action="{% url 'products:products_list' %}">
       <div class="input-group">
         <input type="text" class="form-control" name="title" placeholder="Título" value="{{ request.GET.title }}">
@@ -59,21 +61,21 @@ SGE - Produtos
   <table class="table table-striped table-bordered">
     <thead class="thead-dark">
       <tr>
-        <th>ID</th>
+        <th class="d-none d-lg-table-cell">ID</th>
         <th>Título</th>
         <th>Categoria</th>
         <th>Marca</th>
         <th>Preço de Custo</th>
         <th>Preço de Venda</th>
-        <th>Número de Série</th>
+        <th class="d-none d-lg-table-cell">Número de Série</th>
         <th>Quantidade</th>
-        <th>Ações</th>
+        <th class="d-none d-sm-table-cell">Ações</th>
       </tr>
     </thead>
     <tbody>
       {% for product in products %}
       <tr>
-        <td>
+        <td class="d-none d-lg-table-cell">
           <a href="{% url 'products:product_detail' product.id %}" class="text-primary fw-semibold">
             {{ product.id }}
           </a>
@@ -83,29 +85,23 @@ SGE - Produtos
         <td>{{ product.brand }}</td>
         <td>R$ {{ product.cost_price }}</td>
         <td>R$ {{ product.selling_price }}</td>
-        <td>{{ product.serie_number }}</td>
+        <td class="d-none d-lg-table-cell">{{ product.serie_number|default:'Não informado' }}</td>
         <td>{{ product.quantity }}</td>
-        <td>
+        <td class="d-flex flex-wrap gap-1 d-none d-sm-table-cell">
           <a href="{% url 'products:product_detail' product.id %}" class="btn btn-info btn-sm">
             <i class="bi bi-eye"></i>
           </a>
-
-
           <a href="{% url 'products:product_update' product.id %}" class="btn btn-warning btn-sm">
             <i class="bi bi-pencil"></i>
           </a>
-
-
-
           <a href="{% url 'products:product_delete' product.id %}" class="btn btn-danger btn-sm btn-delete">
             <i class="bi bi-trash"></i>
           </a>
-
         </td>
       </tr>
       {% endfor %}
     </tbody>
-  </table>
+  </table>  
 </div>
 
 {% include 'components/_pagination.html' %}

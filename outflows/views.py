@@ -2,6 +2,7 @@ from django.views.generic import ListView, CreateView, DetailView
 from .models import Outflow
 from .forms import OutflowForm
 from django.urls import reverse_lazy
+from utils.metrics import get_sales_metrics
 
 
 class OutflowListView(ListView):
@@ -23,6 +24,7 @@ class OutflowListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_outflow_is_active'] = 'active'
+        context['sales_metrics'] = get_sales_metrics()
         return context
 
 
