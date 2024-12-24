@@ -33,7 +33,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 # Application definition
 
 THIRD_PARTY_APPS = [
-    'jazzmin',
+    # 'jazzmin',
 ]
 
 LOCAL_APPS = [

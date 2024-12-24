@@ -1,7 +1,9 @@
 from products.models import Product
 from outflows.models import Outflow
-from django.utils.formats import number_format
+from django.utils.formats import number_format, date_format
 from django.db.models import Sum, F
+from django.utils.timezone import localdate
+from datetime import timedelta, date as dt
 
 def get_products_metrics():    
     products_metrics_data = Product.objects.aggregate(
@@ -43,3 +45,43 @@ def get_sales_metrics():
         total_sales_value=number_format(total_sales_value, decimal_pos=2, force_grouping=True),
         total_sales_profit=number_format(total_sales_profit, decimal_pos=2, force_grouping=True),
     )
+    
+    
+def get_daily_sales_data():
+    today = localdate()
+    dates = [today - timedelta(days=i) for i in range(6, -1, -1)]
+    values = []
+
+    for date in dates:
+        sales_total = Outflow.objects.filter(
+            created_at__date=str(date)
+        ).aggregate(
+            total_sales=Sum(F('product__selling_price') * F('quantity'))
+        )['total_sales'] or 0
+        values.append(float(sales_total))
+
+    # Formata as datas apenas no final
+    formatted_dates = [date_format(date, format='d/m') for date in dates]
+
+    return dict(
+        dates=formatted_dates,
+        values=values,
+    )
+    
+    
+def get_daily_sales_quantity_data():
+    today = localdate()
+    dates = [today - timedelta(days=i) for i in range(6, -1, -1)]
+    values = list()
+    
+    for date in dates:
+        sales_quantity = Outflow.objects.filter(created_at__date=str(date)).count()
+        values.append(sales_quantity)
+        
+    dates = [date_format(date, format='d/m') for date in dates]
+    
+    return dict(
+        dates=dates,
+        values=values
+    )
+        
