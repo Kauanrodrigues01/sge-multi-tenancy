@@ -2,8 +2,9 @@ from django.views.generic import ListView, CreateView, DetailView, DeleteView, U
 from .models import Brand
 from django.urls import reverse_lazy
 from .forms import BrandForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class BrandListView(ListView):
+class BrandListView(LoginRequiredMixin, ListView):
     model = Brand
     template_name = 'brands/brands_list.html'
     context_object_name = 'brands'
@@ -23,9 +24,9 @@ class BrandListView(ListView):
         context = super().get_context_data(**kwargs)
         context['page_brand_is_active'] = 'active'
         return context
-    
-    
-class BrandCreateView(CreateView):
+
+
+class BrandCreateView(LoginRequiredMixin, CreateView):
     model = Brand
     template_name = 'brands/brand_create.html'
     form_class = BrandForm
@@ -38,7 +39,7 @@ class BrandCreateView(CreateView):
         return context
 
 
-class BrandDetailView(DetailView):
+class BrandDetailView(LoginRequiredMixin, DetailView):
     model = Brand
     template_name = 'brands/brand_detail.html'
     context_object_name = 'brand'
@@ -48,9 +49,9 @@ class BrandDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['page_brand_is_active'] = 'active'
         return context
-    
 
-class BrandUpdateView(UpdateView):
+
+class BrandUpdateView(LoginRequiredMixin, UpdateView):
     model = Brand
     template_name = 'brands/brand_update.html'
     form_class = BrandForm
@@ -62,9 +63,9 @@ class BrandUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['page_brand_is_active'] = 'active'
         return context
-    
 
-class BrandDeleteView(DeleteView):
+
+class BrandDeleteView(LoginRequiredMixin, DeleteView):
     model = Brand
     template_name = 'brands/brand_delete.html'
     context_object_name = 'brand'

@@ -151,6 +151,7 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_URL = 'authentication:login'
 
 if DEBUG:
     INSTALLED_APPS += ['django_extensions']

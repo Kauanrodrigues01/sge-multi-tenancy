@@ -1,9 +1,10 @@
-from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
+from django.views.generic import ListView, CreateView, DetailView
 from .models import Inflow
 from django.urls import reverse_lazy
 from .forms import InflowForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class InflowListView(ListView):
+class InflowListView(LoginRequiredMixin, ListView):
     model = Inflow
     template_name = 'inflows/inflows_list.html'
     context_object_name = 'inflows'
@@ -25,7 +26,7 @@ class InflowListView(ListView):
         return context
 
 
-class InflowCreateView(CreateView):
+class InflowCreateView(LoginRequiredMixin, CreateView):
     model = Inflow
     template_name = 'inflows/inflow_create.html'
     form_class = InflowForm
@@ -38,7 +39,7 @@ class InflowCreateView(CreateView):
         return context
 
 
-class InflowDetailView(DetailView):
+class InflowDetailView(LoginRequiredMixin, DetailView):
     model = Inflow
     template_name = 'inflows/inflow_detail.html'
     context_object_name = 'inflow'

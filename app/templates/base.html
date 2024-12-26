@@ -16,9 +16,10 @@
 </head>
 <body>
 
-    {% include 'components/_header.html' %}
-
-    {% include "components/_sidebar.html" %}
+    {% if request.user.is_authenticated %}
+        {% include 'components/_header.html' %}
+        {% include "components/_sidebar.html" %}
+    {% endif %}
 
     <div class="container-fluid">
         <div class="col py-3">

@@ -2,8 +2,9 @@ from django.views.generic import ListView, CreateView, DetailView, DeleteView, U
 from .models import Category
 from django.urls import reverse_lazy
 from .forms import CategoryForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class CategoryListView(ListView):
+class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
     template_name = 'categories/categories_list.html'
     context_object_name = 'categories'
@@ -23,9 +24,9 @@ class CategoryListView(ListView):
         context = super().get_context_data(**kwargs)
         context['page_category_is_active'] = 'active'
         return context
-    
-    
-class CategoryCreateView(CreateView):
+
+
+class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
     template_name = 'categories/category_create.html'
     form_class = CategoryForm
@@ -38,7 +39,7 @@ class CategoryCreateView(CreateView):
         return context
 
 
-class CategoryDetailView(DetailView):
+class CategoryDetailView(LoginRequiredMixin, DetailView):
     model = Category
     template_name = 'categories/category_detail.html'
     context_object_name = 'category'
@@ -48,9 +49,9 @@ class CategoryDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['page_category_is_active'] = 'active'
         return context
-    
 
-class CategoryUpdateView(UpdateView):
+
+class CategoryUpdateView(LoginRequiredMixin, UpdateView):
     model = Category
     template_name = 'categories/category_update.html'
     form_class = CategoryForm
@@ -62,9 +63,9 @@ class CategoryUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['page_category_is_active'] = 'active'
         return context
-    
 
-class CategoryDeleteView(DeleteView):
+
+class CategoryDeleteView(LoginRequiredMixin, DeleteView):
     model = Category
     template_name = 'categories/category_delete.html'
     context_object_name = 'category'

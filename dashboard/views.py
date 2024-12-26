@@ -1,8 +1,9 @@
 import json
 from django.shortcuts import render
 from utils import metrics
-from pprint import pprint
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def home(request):
     daily_sales_data = metrics.get_daily_sales_data()
     daily_sales_quantity_data = metrics.get_daily_sales_quantity_data()
