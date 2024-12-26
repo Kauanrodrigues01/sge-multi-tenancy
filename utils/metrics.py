@@ -1,9 +1,11 @@
 from products.models import Product
 from outflows.models import Outflow
+from categories.models import Category
+from brands.models import Brand
 from django.utils.formats import number_format, date_format
 from django.db.models import Sum, F
 from django.utils.timezone import localdate
-from datetime import timedelta, date as dt
+from datetime import timedelta
 
 def get_products_metrics():    
     products_metrics_data = Product.objects.aggregate(
@@ -85,3 +87,20 @@ def get_daily_sales_quantity_data():
         values=values
     )
         
+
+def get_graphic_product_category_metric():
+    categories = Category.objects.all()
+    data = {category.name: Product.objects.filter(category=category).count() for category in categories}
+    
+    filtered_data = {k: v for k, v in data.items() if v > 0}
+
+    return filtered_data
+
+
+def get_graphic_product_brand_metric():
+    brands = Brand.objects.all()
+    data = {brand.name: Product.objects.filter(brand=brand).count() for brand in brands}
+    
+    filtered_data = {k: v for k, v in data.items() if v > 0}
+    
+    return filtered_data
