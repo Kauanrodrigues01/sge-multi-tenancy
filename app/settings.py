@@ -44,6 +44,7 @@ LOCAL_APPS = [
     'inflows',
     'outflows',
     'dashboard',
+    'authentication'
 ]
 
 DJANGO_APPS = [
