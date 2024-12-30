@@ -5,10 +5,9 @@ from categories.models import Category
 from .models import Product
 from .forms import ProductForm
 from utils.metrics import get_products_metrics
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
-
-class ProductListView(LoginRequiredMixin, ListView):
+class ProductListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Product
     template_name = 'products/products_list.html'
     context_object_name = 'products'
@@ -47,7 +46,7 @@ class ProductListView(LoginRequiredMixin, ListView):
         return context
 
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
+class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Product
     template_name = 'products/product_create.html'
     form_class = ProductForm
@@ -60,7 +59,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return context
 
 
-class ProductDetailView(LoginRequiredMixin, DetailView):
+class ProductDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Product
     template_name = 'products/product_detail.html'
     context_object_name = 'product'
@@ -72,7 +71,7 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Product
     template_name = 'products/product_update.html'
     form_class = ProductForm
@@ -85,7 +84,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Product
     template_name = 'products/product_delete.html'
     success_url = reverse_lazy('products:products_list')

@@ -35,7 +35,7 @@ def login_post_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            request.session.pop('next_page')
+            request.session.pop('next_page') if next_page else ...
             return redirect(next_page) if next_page else redirect('dashboard:home')
         else:
             request.session['errors_login_form'] = [

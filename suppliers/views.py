@@ -2,9 +2,9 @@ from django.views.generic import ListView, CreateView, DetailView, DeleteView, U
 from .models import Supplier
 from django.urls import reverse_lazy
 from .forms import SupplierForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
-class SupplierListView(LoginRequiredMixin, ListView):
+class SupplierListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Supplier
     template_name = 'suppliers/suppliers_list.html'
     context_object_name = 'suppliers'
@@ -26,7 +26,7 @@ class SupplierListView(LoginRequiredMixin, ListView):
         return context
     
 
-class SupplierCreateView(LoginRequiredMixin, CreateView):
+class SupplierCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Supplier
     template_name = 'suppliers/supplier_create.html'
     form_class = SupplierForm
@@ -39,7 +39,7 @@ class SupplierCreateView(LoginRequiredMixin, CreateView):
         return context
 
 
-class SupplierDetailView(LoginRequiredMixin, DetailView):
+class SupplierDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Supplier
     template_name = 'suppliers/supplier_detail.html'
     context_object_name = 'supplier'
@@ -51,7 +51,7 @@ class SupplierDetailView(LoginRequiredMixin, DetailView):
         return context
     
 
-class SupplierUpdateView(LoginRequiredMixin, UpdateView):
+class SupplierUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Supplier
     template_name = 'suppliers/supplier_update.html'
     form_class = SupplierForm
@@ -65,7 +65,7 @@ class SupplierUpdateView(LoginRequiredMixin, UpdateView):
         return context
     
 
-class SupplierDeleteView(LoginRequiredMixin, DeleteView):
+class SupplierDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Supplier
     template_name = 'suppliers/supplier_delete.html'
     context_object_name = 'supplier'
