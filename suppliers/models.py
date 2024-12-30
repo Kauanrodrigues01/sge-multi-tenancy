@@ -8,6 +8,8 @@ class Supplier(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        verbose_name = 'Fornecedor'
+        verbose_name = 'Fornecedores'
         ordering = ['name']
 
     def __str__(self):

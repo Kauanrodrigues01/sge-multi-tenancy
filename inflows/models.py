@@ -12,6 +12,8 @@ class Inflow(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        verbose_name = 'Entrada'
+        verbose_name_plural = 'Entradas'
         ordering = ['-created_at']
 
     def __str__(self):

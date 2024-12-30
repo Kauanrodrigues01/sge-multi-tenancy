@@ -8,6 +8,8 @@ class Category(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        verbose_name = 'Categoria'
+        verbose_name_plural = 'Categorias'
         ordering = ['name']
 
     def __str__(self):
