@@ -6,7 +6,9 @@ SGE - Produtos
 
 {% block content %}
 
+{% if perms.products.view_product and perms.inflows.view_inflow %}
 {% include 'components/_products_metrics.html' %}
+{% endif %}
 
 <div class="mb-4"></div>
 
@@ -24,11 +26,13 @@ SGE - Produtos
     </form>
   </div>
 
+  {% if perms.products.add_product %}
   <div class="col-md-6">
     <a href="{% url 'products:product_create' %}" class="btn btn-success float-end">
       <i class="bi bi-plus"></i> Novo Produto
     </a>
   </div>
+  {% endif %}
 
 </div>
 
@@ -87,16 +91,23 @@ SGE - Produtos
         <td>R$ {{ product.selling_price }}</td>
         <td class="d-none d-lg-table-cell">{{ product.serie_number|default:'Não informado' }}</td>
         <td>{{ product.quantity }}</td>
-        <td class="d-flex flex-wrap gap-1 d-none d-sm-table-cell">
+        <td class="d-flex flex-wrap gap-1 d-none d-sm-table-cell text-center">
           <a href="{% url 'products:product_detail' product.id %}" class="btn btn-info btn-sm">
             <i class="bi bi-eye"></i>
           </a>
+
+          {% if perms.procusts.update_product %}
           <a href="{% url 'products:product_update' product.id %}" class="btn btn-warning btn-sm">
             <i class="bi bi-pencil"></i>
           </a>
+          {% endif %}
+
+          {% if perms.procusts.delete_product %}
           <a href="{% url 'products:product_delete' product.id %}" class="btn btn-danger btn-sm btn-delete">
             <i class="bi bi-trash"></i>
           </a>
+          {% endif %}
+
         </td>
       </tr>
       {% endfor %}
