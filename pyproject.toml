@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "sge"
+version = "0.1.0"
+description = "Sistema de gerenciamento de estoque desenvolvido durante o curso Django Master da pycodebr"
+authors = ["Kauan <kauanrl09@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+django = "^5.1.4"
+python-decouple = "^3.8"
+dj-database-url = "^2.3.0"
+django-jazzmin = "^3.0.1"
+
+
+[tool.poetry.group.dev.dependencies]
+django-extensions = "^3.2.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
