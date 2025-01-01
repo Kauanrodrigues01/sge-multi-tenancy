@@ -33,7 +33,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 # Application definition
 
 THIRD_PARTY_APPS = [
-    'jazzmin',
+    # 'jazzmin',
 ]
 
 LOCAL_APPS = [
@@ -44,7 +44,8 @@ LOCAL_APPS = [
     'inflows',
     'outflows',
     'dashboard',
-    'authentication'
+    'authentication',
+    'webhooks'
 ]
 
 DJANGO_APPS = [
@@ -67,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'middlewares.thread_local_middleware.ThreadLocalMiddleware',
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -188,3 +190,42 @@ JAZZMIN_UI_TWEAKS = {
     },
     "actions_sticky_top": False
 }
+
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'verbose': {
+#             'format': '{levelname} {asctime} {module} {message}',
+#             'style': '{',
+#         },
+#         'simple': {
+#             'format': '{levelname} {message}',
+#             'style': '{',
+#         },
+#     },
+#     'handlers': {
+#         'console': {
+#             'level': 'INFO',  # Define que mensagens a partir do nível INFO serão exibidas
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'verbose',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': 'INFO',  # Altere para DEBUG se quiser mais detalhes
+#             'propagate': True,
+#         },
+#         '__main__': {
+#             'handlers': ['console'],
+#             'level': 'INFO',
+#         },
+#         'middlewares.request_log_middleware': {  # Logger específico para o middleware
+#             'handlers': ['console'],
+#             'level': 'INFO',
+#             'propagate': False,
+#         },
+#     },
+# }
