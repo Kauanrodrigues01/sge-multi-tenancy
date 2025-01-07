@@ -18,28 +18,32 @@ def update_product_quantity(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Outflow)
 def send_outflow_event(sender, instance, created, **kwargs):
-    user = get_current_user()
-    
-    notify = Notify(user=user)
-    
-    product = instance.product
-    cost_price = instance.product.cost_price
-    selling_price = instance.product.selling_price
-    quantity = instance.quantity
-    total_value = quantity * selling_price
-    profit = quantity * (selling_price - cost_price)
-    
-    
-    data = {
-        'event_type': 'create_outflow',
-        'timestamp': datetime.now().strftime('%d/%m/%Y %H:%M:%S '),
-        'product': product.title,
-        'product_cost_price': float(cost_price),
-        'product_selling_price': float(selling_price), 
-        'quantity': quantity,
-        'description': instance.description,
-        'total_value': total_value,
-        'profit': float(profit)
-    }
-    
-    notify.send_outflow_event(data=data)
+    try:
+        if created:
+            user = get_current_user()
+            
+            notify = Notify(user=user)
+            
+            product = instance.product
+            cost_price = instance.product.cost_price
+            selling_price = instance.product.selling_price
+            quantity = instance.quantity
+            total_value = quantity * selling_price
+            profit = quantity * (selling_price - cost_price)
+            
+            
+            data = {
+                'event_type': 'create_outflow',
+                'timestamp': datetime.now().strftime('%d/%m/%Y %H:%M:%S '),
+                'product': product.title,
+                'product_cost_price': float(cost_price),
+                'product_selling_price': float(selling_price), 
+                'quantity': quantity,
+                'description': instance.description,
+                'total_value': total_value,
+                'profit': float(profit)
+            }
+            
+            notify.send_outflow_event(data=data)
+    except:
+        pass
