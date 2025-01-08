@@ -43,7 +43,6 @@ LOCAL_APPS = [
     'outflows',
     'dashboard',
     'authentication',
-    'webhooks',
     'ai'
 ]
 

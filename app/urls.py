@@ -12,5 +12,4 @@ urlpatterns = [
     path('', include('outflows.urls')),
     path('', include('products.urls')),
     path('', include('authentication.urls')),
-    path('', include('webhooks.urls'))
 ]
