@@ -108,21 +108,3 @@ $ python manage.py migrate
 # Inicie o servidor
 $ python manage.py runserver
 ```
-
----
-
-## **Contribuição**
-Contribuições são bem-vindas! Por favor, siga as diretrizes do projeto ao enviar pull requests.
-
----
-
-## **Licença**
-Este projeto está licenciado sob a [Licença MIT](LICENSE).
-
----
-
-## **Contato**
-Caso tenha dúvidas ou sugestões, entre em contato:
-- **Email:** exemplo@dominio.com
-- **WhatsApp:** +55 11 99999-9999
-
