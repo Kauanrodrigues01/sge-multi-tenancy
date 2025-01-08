@@ -200,3 +200,13 @@ if DEBUG:
 
 GEMINI_API_KEY=config('GEMINI_API_KEY', cast=str, default='api-key')
 GEMINI_MODEL=config('GEMINI_MODEL', cast=str, default='ia-model')
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST', cast=str)
+EMAIL_PORT = config('EMAIL_PORT', cast=str)
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', cast=str) 
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', cast=str)
+DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', cast=str)
+
+MY_EMAIL = config('MY_EMAIL', cast=str)
