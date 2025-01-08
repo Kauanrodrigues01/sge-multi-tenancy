@@ -23,19 +23,40 @@ O **SGE (Sistema de Gestão de Estoque)** é uma solução completa para o geren
 - **Estilização e Front-end**:
   - Design responsivo utilizando **Bootstrap**.
 - **Notificações**:
-  - Envio de mensagens automáticas via WhatsApp (API da **Envolution**).
+  - Envio de mensagens automáticas via WhatsApp (API da **Evolution**).
   - Envio de e-mails com o próprio Django.
 
 ---
 
 ## **Tecnologias Utilizadas**
+<p align="left">
+  <img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/icons/backend/python.svg" width="40" height="40" alt="Python" />
+  <img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/icons/backend/django.svg" height="50" alt="Django" />
+  <img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/icons/backend/postgresql-light.svg" width="40" height="40" alt="PostgreSQL" />
+  <img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/icons/frontend/bootstrap.svg" height="35" alt="BootStrap" />
+  <img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/icons/frontend/chartjs.svg" width="40" height="40" alt="ChartJS" />
+</p>
+
 - **Back-end**:
   - **Django** para o criação do sistema web e gerenciamento do sistema e envio de e-mails.
-  - Integração com a API da Envolution para envio de mensagens WhatsApp.
+  - Integração com a API da Evolution para envio de mensagens WhatsApp.
   - **Gemini** para integração de IA e fornecimento de insights.
 - **Front-end**:
   - **Bootstrap** para estilização.
   - **Chart.js** para criação de gráficos interativos.
+
+---
+
+## **Integrações**
+
+<img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/images/evolution-api.png" width="180" alt="Evolution API" />
+
+- Envio de mensagens automáticas pelo WhatsApp.
+- Alertas de movimentações e baixo estoque.
+
+<img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/images/gemini.png" width="150" alt="Evolution API" />
+
+- IA para sugestões de reposição e insights de otimização.
 
 ---
 
@@ -48,7 +69,7 @@ O **SGE (Sistema de Gestão de Estoque)** é uma solução completa para o geren
 - **Produtos por Marca:**
 - **Produtos por Categoria:**
 
-> *Adicione aqui imagens de exemplos de gráficos gerados.*
+> *Adicionar aqui imagens de exemplos de gráficos gerados.*
 
 ### **Métricas**
 
@@ -63,22 +84,7 @@ O **SGE (Sistema de Gestão de Estoque)** é uma solução completa para o geren
   - Valor Total de Vendas: `total_sales_value`
   - Lucro Total de Vendas: `total_sales_profit`
 
-> *Adicione aqui imagens de exemplos de visualização de métricas.*
-
----
-
-## **Integrações**
-
-### **Envolution**
-![Logo Envolution](#) *(Adicione a logo pequena aqui)*
-
-- Envio de mensagens automáticas pelo WhatsApp.
-- Alertas de movimentações e baixo estoque.
-
-### **Gemini**
-![Logo Gemini](#) *(Adicione a logo pequena aqui)*
-
-- IA para sugestões de reposição e insights de otimização.
+> *Adicionar aqui imagens de exemplos de visualização de métricas.*
 
 ---
 
@@ -87,8 +93,7 @@ O **SGE (Sistema de Gestão de Estoque)** é uma solução completa para o geren
 ### **Pré-requisitos**
 1. Python 3.10+
 2. Django 4.2+
-3. Node.js (para dependências do Chart.js, se aplicável)
-4. Conta na API da Envolution
+4. Conta na API da Evolution(Caso não houver, o projeto vai funcionar normalmente, mas sem o envio de notificações pelo Whatssap)
 5. Configuração do Gemini para integração de IA
 
 ### **Instalação**
