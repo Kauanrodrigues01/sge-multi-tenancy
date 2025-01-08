@@ -43,7 +43,8 @@ LOCAL_APPS = [
     'outflows',
     'dashboard',
     'authentication',
-    'webhooks'
+    'webhooks',
+    'ai'
 ]
 
 DJANGO_APPS = [
@@ -195,3 +196,7 @@ LOGGING = {
         },
     },
 }
+
+
+GEMINI_API_KEY=config('GEMINI_API_KEY', cast=str, default='api-key')
+GEMINI_MODEL=config('GEMINI_MODEL', cast=str, default='ia-model')
