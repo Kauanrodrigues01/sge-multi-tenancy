@@ -159,43 +159,43 @@ if DEBUG:
     INSTALLED_APPS += ['django_extensions']
 
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {message}',
-            'style': '{',
-        },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
-        },
-    },
-    'handlers': {
-        'console': {
-            'level': 'INFO',  # Define que mensagens a partir do nível INFO serão exibidas
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',  # Altere para DEBUG se quiser mais detalhes
-            'propagate': True,
-        },
-        '__main__': {
-            'handlers': ['console'],
-            'level': 'INFO',
-        },
-        'middlewares.request_log_middleware': {  # Logger específico para o middleware
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
-        },
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'verbose': {
+#             'format': '{levelname} {asctime} {module} {message}',
+#             'style': '{',
+#         },
+#         'simple': {
+#             'format': '{levelname} {message}',
+#             'style': '{',
+#         },
+#     },
+#     'handlers': {
+#         'console': {
+#             'level': 'INFO',  # Define que mensagens a partir do nível INFO serão exibidas
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'verbose',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': 'INFO',  # Altere para DEBUG se quiser mais detalhes
+#             'propagate': True,
+#         },
+#         '__main__': {
+#             'handlers': ['console'],
+#             'level': 'INFO',
+#         },
+#         'middlewares.request_log_middleware': {  # Logger específico para o middleware
+#             'handlers': ['console'],
+#             'level': 'INFO',
+#             'propagate': False,
+#         },
+#     },
+# }
 
 
 GEMINI_API_KEY=config('GEMINI_API_KEY', cast=str, default='api-key')
