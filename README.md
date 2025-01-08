@@ -104,6 +104,8 @@ $ git clone https://github.com/seuprojeto/sge.git
 # Acesse a pasta do projeto
 $ cd sge
 
+# Configurar variáveis de ambiente
+
 # Instale as dependências Python
 $ pip install -r requirements.txt
 
