@@ -11,11 +11,13 @@ RUN apt-get update && \
 RUN pip install --upgrade pip
 RUN pip install -r requirements_dev.txt
 
-RUN chmod -R +x /sge/scripts/
-
+RUN chmod -R +x /sge/scripts
 RUN groupadd -r usergroup && useradd -r -g usergroup -m user
-RUN chown -R user:usergroup /sge /sge/scripts
+RUN chown -R user:usergroup /sge
+
+# Garantir permissões adequadas para o diretório
 RUN chmod -R 755 /sge
+
 USER user
 
 EXPOSE 8000

@@ -1,4 +1,16 @@
 services:
+  db:
+    container_name: db_sge
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+    - "5432:5432"
+    networks:
+      - sge-network
+
   web:
     build:
       context: .
@@ -6,22 +18,12 @@ services:
     container_name: sge
     ports:
       - "8000:8000"
-    volumes:
-      - ./app:/sge/app
-      - ./authentication:/sge/authentication
-      - ./categories:/sge/categories
-      - ./brands:/sge/brands
-      - ./dashboard:/sge/dashboard
-      - ./inflows:/sge/inflows
-      - ./middlewares:/sge/middlewares
-      - ./products:/sge/products
-      - ./scripts:/sge/scripts
-      - ./static:/sge/static
-      - ./utils:/sge/utils
     networks:
       - sge-network
     env_file:
-      - .env  
+      - .env
+    depends_on:
+      - db
 
 networks:
   sge-network:

@@ -22,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', cast=str)
+SECRET_KEY = config('SECRET_KEY', cast=str, default='django-insecure')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default='*')
 
 
 # Application definition
@@ -96,16 +96,16 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
-#     'default': config('DATABASE_URL', default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'), cast=dburl),
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
 # }
+
+DATABASES = {
+    'default': config('DATABASE_URL', default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'), cast=dburl),
+}
 
 
 # Password validation
@@ -203,11 +203,11 @@ GEMINI_API_KEY=config('GEMINI_API_KEY', cast=str, default='api-key')
 GEMINI_MODEL=config('GEMINI_MODEL', cast=str, default='ia-model')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = config('EMAIL_HOST', cast=str)
-EMAIL_PORT = config('EMAIL_PORT', cast=str)
+EMAIL_HOST = config('EMAIL_HOST', cast=str, default='smtp.gmail.com')
+EMAIL_PORT = config('EMAIL_PORT', cast=str, default=587)
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config('EMAIL_HOST_USER', cast=str) 
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', cast=str)
-DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', cast=str)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', cast=str, default='undefined@undefined.undefined') 
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', cast=str, default='undefined')
+DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', cast=str, default='undefined')
 
-MY_EMAIL = config('MY_EMAIL', cast=str)
+MY_EMAIL = config('MY_EMAIL', cast=str, default='undefined')
