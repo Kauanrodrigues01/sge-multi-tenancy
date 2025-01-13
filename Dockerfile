@@ -1,21 +1,23 @@
-# Utilizando a imagem do Python
-FROM python:3.12-slim
+FROM python:3.13-slim
 
 WORKDIR /sge
 
 COPY . .
 
 RUN apt-get update && \
-    apt-get install -y gcc pkg-config && \
+    apt-get install -y gcc build-essential libpq-dev libpcre3-dev make libc-dev && \
     rm -rf /var/lib/apt/lists/*
-
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements_dev.txt
-RUN python3 manage.py migrate --no-input
-RUN python3 manage.py collectstatic --no-input
+
+RUN chmod -R +x /sge/scripts/
+
+RUN groupadd -r usergroup && useradd -r -g usergroup -m user
+RUN chown -R user:usergroup /sge /sge/scripts
+RUN chmod -R 755 /sge
+USER user
 
 EXPOSE 8000
 
-# Definir o comando para iniciar a aplicação com uWSGI
-CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT ["/bin/sh", "/sge/scripts/entrypoint.sh"]

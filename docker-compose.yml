@@ -1,17 +1,27 @@
-version: "3.11"
-
 services:
   web:
-    build: .
-    container_name: sge-web
-    env_file:
-      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sge
     ports:
       - "8000:8000"
     volumes:
-      - .:/sge
+      - ./app:/sge/app
+      - ./authentication:/sge/authentication
+      - ./categories:/sge/categories
+      - ./brands:/sge/brands
+      - ./dashboard:/sge/dashboard
+      - ./inflows:/sge/inflows
+      - ./middlewares:/sge/middlewares
+      - ./products:/sge/products
+      - ./scripts:/sge/scripts
+      - ./static:/sge/static
+      - ./utils:/sge/utils
     networks:
       - sge-network
+    env_file:
+      - .env  
 
 networks:
   sge-network:
