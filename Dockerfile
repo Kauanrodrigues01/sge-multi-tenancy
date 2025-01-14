@@ -9,7 +9,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade pip
-RUN pip install -r requirements_dev.txt
+RUN pip install -r requirements.txt
 
 RUN chmod -R +x /sge/scripts
 RUN groupadd -r usergroup && useradd -r -g usergroup -m user
