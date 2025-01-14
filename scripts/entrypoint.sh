@@ -11,5 +11,5 @@ python manage.py collectstatic --no-input
 echo "APLICANDO MIGRACOES"
 
 # Iniciar o servidor uWSGI
-uwsgi --http :8000 --module app.wsgi --chmod-socket=666 --master --enable-threads --processes 2 --threads 4 --static-map /static=/sge/static
+uwsgi --socket :8000 --module app.wsgi --workers 4 --master
 echo "SERVIDOR INICIADO"

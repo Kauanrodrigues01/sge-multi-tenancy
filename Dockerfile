@@ -17,6 +17,7 @@ RUN chown -R user:usergroup /sge
 
 # Garantir permissões adequadas para o diretório
 RUN chmod -R 755 /sge
+RUN mkdir -p /sge/static && chown -R user:usergroup /sge/static && chmod -R 755 /sge/static
 
 USER user
 
