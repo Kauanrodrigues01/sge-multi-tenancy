@@ -14,7 +14,7 @@ services:
   sge:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.alpine
     container_name: sge
     ports:
       - "8000:8000"

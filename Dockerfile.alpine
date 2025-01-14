@@ -1,12 +1,17 @@
-FROM python:3.13-slim
+FROM python:3.13-alpine
 
 WORKDIR /sge
 
 COPY . .
 
-RUN apt-get update && \
-    apt-get install -y gcc build-essential libpq-dev libpcre3-dev make libc-dev && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache \
+    gcc \
+    g++ \
+    make \
+    libc-dev \
+    libpq-dev \
+    pcre-dev \
+    linux-headers
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
