@@ -1,8 +1,10 @@
-from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
-from .models import Category
 from django.urls import reverse_lazy
-from .forms import CategoryForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
+
+from .models import Category
+from .forms import CategoryForm
+
 
 class CategoryListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Category
@@ -19,7 +21,7 @@ class CategoryListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
             queryset = queryset.filter(name__icontains=name)
 
         return queryset.order_by('-id')
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_category_is_active'] = 'active'
@@ -32,7 +34,7 @@ class CategoryCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView
     form_class = CategoryForm
     success_url = reverse_lazy('categories:categories_list')
     permission_required = 'categories.add_category'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_category_is_active'] = 'active'
@@ -44,7 +46,7 @@ class CategoryDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView
     template_name = 'categories/category_detail.html'
     context_object_name = 'category'
     permission_required = 'categories.view_category'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_category_is_active'] = 'active'
@@ -58,7 +60,7 @@ class CategoryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView
     context_object_name = 'category'
     success_url = reverse_lazy('categories:categories_list')
     permission_required = 'categories.change_category'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_category_is_active'] = 'active'
@@ -71,7 +73,7 @@ class CategoryDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView
     context_object_name = 'category'
     success_url = reverse_lazy('categories:categories_list')
     permission_required = 'categories.delete_category'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_category_is_active'] = 'active'

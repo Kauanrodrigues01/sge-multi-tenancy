@@ -1,11 +1,13 @@
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+
 from brands.models import Brand
 from categories.models import Category
+from utils.metrics import get_products_metrics
 from .models import Product
 from .forms import ProductForm
-from utils.metrics import get_products_metrics
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
 
 class ProductListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Product
@@ -20,7 +22,7 @@ class ProductListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         serie_number = self.request.GET.get('serie_number')
         category = self.request.GET.get('category')
         brand = self.request.GET.get('brand')
-        
+
         filters = {}
 
         if title:
@@ -31,7 +33,7 @@ class ProductListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
             filters['category__id'] = category
         if brand:
             filters['brand__id'] = brand
-            
+
         if filters:
             queryset = queryset.filter(**filters)
 
@@ -52,7 +54,7 @@ class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
     form_class = ProductForm
     success_url = reverse_lazy('products:products_list')
     permission_required = 'products.add_product'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_product_is_active'] = 'active'
@@ -64,7 +66,7 @@ class ProductDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView)
     template_name = 'products/product_detail.html'
     context_object_name = 'product'
     permission_required = 'products.view_product'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_product_is_active'] = 'active'
@@ -77,7 +79,7 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
     form_class = ProductForm
     success_url = reverse_lazy('products:products_list')
     permission_required = 'products.change_product'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_product_is_active'] = 'active'
@@ -89,7 +91,7 @@ class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
     template_name = 'products/product_delete.html'
     success_url = reverse_lazy('products:products_list')
     permission_required = 'products.delete_product'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_product_is_active'] = 'active'

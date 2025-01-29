@@ -56,7 +56,7 @@ DJANGO_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
-    
+
 
 INSTALLED_APPS = THIRD_PARTY_APPS + LOCAL_APPS + DJANGO_APPS
 
@@ -201,14 +201,14 @@ if DEBUG:
 # }
 
 
-GEMINI_API_KEY=config('GEMINI_API_KEY', cast=str, default='api-key')
-GEMINI_MODEL=config('GEMINI_MODEL', cast=str, default='ia-model')
+GEMINI_API_KEY = config('GEMINI_API_KEY', cast=str, default='api-key')
+GEMINI_MODEL = config('GEMINI_MODEL', cast=str, default='ia-model')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = config('EMAIL_HOST', cast=str, default='smtp.gmail.com')
 EMAIL_PORT = config('EMAIL_PORT', cast=str, default=587)
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config('EMAIL_HOST_USER', cast=str, default='undefined@undefined.undefined') 
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', cast=str, default='undefined@undefined.undefined')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', cast=str, default='undefined')
 DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', cast=str, default='undefined')
 

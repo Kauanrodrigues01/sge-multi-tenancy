@@ -1,8 +1,10 @@
-from django.views.generic import ListView, CreateView, DetailView
-from .models import Inflow
 from django.urls import reverse_lazy
-from .forms import InflowForm
+from django.views.generic import ListView, CreateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
+from .models import Inflow
+from .forms import InflowForm
+
 
 class InflowListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Inflow
@@ -19,7 +21,7 @@ class InflowListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
             queryset = queryset.filter(product__title__icontains=product)
 
         return queryset.order_by('-created_at')
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_inflow_is_active'] = 'active'
@@ -32,7 +34,7 @@ class InflowCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = InflowForm
     success_url = reverse_lazy('inflows:inflows_list')
     permission_required = 'inflows.add_inflow'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_inflow_is_active'] = 'active'
@@ -44,7 +46,7 @@ class InflowDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     template_name = 'inflows/inflow_detail.html'
     context_object_name = 'inflow'
     permission_required = 'inflows.view_inflow'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_inflow_is_active'] = 'active'

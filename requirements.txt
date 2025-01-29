@@ -4,6 +4,6 @@ dj-database-url==2.3.0
 requests==2.32.3
 google-generativeai==0.8.3
 evolutionapi==0.0.7
-uWSGI==2.0.28
 psycopg2-binary==2.9.10
 celery==5.4.0
+uWSGI==2.0.28

@@ -6,8 +6,9 @@ from inflows.models import Inflow
 from outflows.models import Outflow
 from .data import brands_data, categories_data, suppliers_data, products_data, inflows_data, outflows_data
 
+
 def run():
-    # Limpar dados existentes
+    # Clear all data from the database
     Brand.objects.all().delete()
     Category.objects.all().delete()
     Supplier.objects.all().delete()
@@ -15,28 +16,28 @@ def run():
     Inflow.objects.all().delete()
     Outflow.objects.all().delete()
 
-    # Criar as marcas de forma otimizada (evitando duplicidade)
+    # Create brands in an optimized way (avoiding duplicates)
     brands_to_create = []
     for brand_name, description in brands_data:
         brand, created = Brand.objects.get_or_create(name=brand_name, defaults={'description': description})
         if created:
             brands_to_create.append(brand)
 
-    # Criar as categorias de forma otimizada (evitando duplicidade)
+    # Create categories in an optimized way (avoiding duplicates)
     categories_to_create = []
     for name, description in categories_data:
         category, created = Category.objects.get_or_create(name=name, defaults={'description': description})
         if created:
             categories_to_create.append(category)
 
-    # Criar os fornecedores de forma otimizada (evitando duplicidade)
+    # Create suppliers in an optimized way (avoiding duplicates)
     suppliers_to_create = []
     for name, description in suppliers_data:
         supplier, created = Supplier.objects.get_or_create(name=name, defaults={'description': description})
         if created:
             suppliers_to_create.append(supplier)
 
-    # Criar os produtos com bulk_create para otimização
+    # Create products in an optimized way (avoiding duplicates)
     products_to_create = []
     for title, description, brand_name, category_name, cost_price, selling_price, quantity in products_data:
         try:
@@ -52,13 +53,13 @@ def run():
                 quantity=quantity
             ))
         except Brand.DoesNotExist:
-            print(f"Marca '{brand_name}' não encontrada!")
+            print(f"Brand '{brand_name}' not found!")
         except Category.DoesNotExist:
-            print(f"Categoria '{category_name}' não encontrada!")
-    
+            print(f"Category '{category_name}' not found!")
+
     Product.objects.bulk_create(products_to_create)
 
-    # Criar as entradas de estoque com bulk_create
+    # Create inflows in an optimized way (avoiding duplicates)
     inflows_to_create = []
     for supplier_name, product_title, quantity, description in inflows_data:
         try:
@@ -71,13 +72,13 @@ def run():
                 description=description
             ))
         except Supplier.DoesNotExist:
-            print(f"Fornecedor '{supplier_name}' não encontrado!")
+            print(f"Supplier '{supplier_name}' not found!")
         except Product.DoesNotExist:
-            print(f"Produto '{product_title}' não encontrado!")
-    
+            print(f"Product '{product_title}' not found!")
+
     Inflow.objects.bulk_create(inflows_to_create)
 
-    # Criar as saídas de estoque com bulk_create
+    # Create outflows in an optimized way (avoiding duplicates)
     outflows_to_create = []
     for product_title, quantity, description in outflows_data:
         try:
@@ -88,8 +89,8 @@ def run():
                 description=description
             ))
         except Product.DoesNotExist:
-            print(f"Produto '{product_title}' não encontrado!")
-    
+            print(f"Product '{product_title}' not found!")
+
     Outflow.objects.bulk_create(outflows_to_create)
 
-    print("População do banco de dados concluída.")
+    print("Database populated successfully!")

@@ -1,7 +1,8 @@
 import logging
+
+from decouple import config
 from evolutionapi.client import EvolutionClient
 from evolutionapi.models.message import TextMessage
-from decouple import config
 from evolutionapi.models.message import ButtonMessage, Button
 
 
@@ -49,9 +50,8 @@ class EvolutionAPI:
             # Log the error and return a fallback response
             self.logger.error(f"Failed to send message: {str(e)}")
             return {"status": "error", "message": "Failed to send the message"}
-        
-        
-    def send_message_with_buttons(self, instance_name: str = '', instance_token: str = '', number: str = None, title : str = '', description : str = '', footer : str = '', buttons : list[Button] = []):
+
+    def send_message_with_buttons(self, instance_name: str = '', instance_token: str = '', number: str = None, title: str = '', description: str = '', footer: str = '', buttons: list[Button] = []):
         """
         Sends a message with buttons using the Evolution API.
 
@@ -71,21 +71,21 @@ class EvolutionAPI:
             footer=footer,
             buttons=buttons
         )
-        
+
         try:
             response = self.__client.messages.send_buttons(
-                instance_id=instance_name if instance_name else self.__instance_name, 
-                message=message, 
+                instance_id=instance_name if instance_name else self.__instance_name,
+                message=message,
                 instance_token=instance_token if instance_token else self.__instance_token
             )
-            
+
             return response
         except Exception as e:
             # Log the error and return a fallback response
             self.logger.error(f"Failed to send message: {str(e)}")
             return {"status": "error", "message": "Failed to send the button message"}
-        
-        
+
+
 if __name__ == '__main__':
     evolution = EvolutionAPI()
     evolution.send_text_message(

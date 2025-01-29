@@ -1,9 +1,10 @@
+from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
+from utils.metrics import get_sales_metrics
 from .models import Outflow
 from .forms import OutflowForm
-from django.urls import reverse_lazy
-from utils.metrics import get_sales_metrics
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
 class OutflowListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -35,7 +36,7 @@ class OutflowCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
     form_class = OutflowForm
     success_url = reverse_lazy('outflows:outflows_list')
     permission_required = 'outflows.add_outflow'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_outflow_is_active'] = 'active'
@@ -47,7 +48,7 @@ class OutflowDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView)
     template_name = 'outflows/outflow_detail.html'
     context_object_name = 'outflow'
     permission_required = 'outflows.view_outflow'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_outflow_is_active'] = 'active'

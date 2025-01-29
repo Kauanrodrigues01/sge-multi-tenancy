@@ -1,8 +1,10 @@
-from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
-from .models import Supplier
 from django.urls import reverse_lazy
-from .forms import SupplierForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
+
+from .models import Supplier
+from .forms import SupplierForm
+
 
 class SupplierListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Supplier
@@ -19,12 +21,12 @@ class SupplierListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
             queryset = queryset.filter(name__icontains=name)
 
         return queryset.order_by('-id')
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_supplier_is_active'] = 'active'
         return context
-    
+
 
 class SupplierCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Supplier
@@ -32,7 +34,7 @@ class SupplierCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView
     form_class = SupplierForm
     success_url = reverse_lazy('suppliers:suppliers_list')
     permission_required = 'suppliers.add_supplier'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_supplier_is_active'] = 'active'
@@ -44,12 +46,12 @@ class SupplierDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView
     template_name = 'suppliers/supplier_detail.html'
     context_object_name = 'supplier'
     permission_required = 'suppliers.view_supplier'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_supplier_is_active'] = 'active'
         return context
-    
+
 
 class SupplierUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Supplier
@@ -58,12 +60,12 @@ class SupplierUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView
     context_object_name = 'supplier'
     success_url = reverse_lazy('suppliers:suppliers_list')
     permission_required = 'suppliers.change_supplier'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_supplier_is_active'] = 'active'
         return context
-    
+
 
 class SupplierDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Supplier
@@ -71,7 +73,7 @@ class SupplierDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView
     context_object_name = 'supplier'
     success_url = reverse_lazy('suppliers:suppliers_list')
     permission_required = 'suppliers.delete_supplier'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_supplier_is_active'] = 'active'

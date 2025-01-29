@@ -1,8 +1,9 @@
 from django.core.cache import cache
 from django.http import JsonResponse
 
+
 class RateLimitingMiddleware:
-    RATE_LIMIT = 5  # Limite de requisições por minuto
+    RATE_LIMIT = 5
 
     def __init__(self, get_response):
         self.get_response = get_response
