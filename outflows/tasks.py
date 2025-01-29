@@ -7,16 +7,14 @@ from django.template.loader import render_to_string
 
 from services.evolution import EvolutionAPI
 from utils.messages import create_outflow_message
-from middlewares.thread_local_middleware import get_current_user
 from .models import Outflow
 
 
 @shared_task
-def send_outflow_notify(instance_id, created):
+def send_outflow_notify(instance_id, user_username, created):
     try:
         if created:
             instance = Outflow.objects.select_related('product').get(id=instance_id)
-            user = get_current_user()
 
             evolution = EvolutionAPI()
 
@@ -29,7 +27,7 @@ def send_outflow_notify(instance_id, created):
                 'quantity': quantity,
                 'total_value': quantity * selling_price,
                 'profit_value': quantity * (selling_price - cost_price),
-                'username': user.username if user else 'Unknown',
+                'username': user_username,
                 'timestamp': datetime.now().strftime('%d/%m/%Y %H:%M:%S')
             }
 
@@ -47,7 +45,7 @@ def send_outflow_notify(instance_id, created):
                 fail_silently=False,  # "Silencia" caso der erro não atrapalha a execução do codigo
                 html_message=render_to_string('email/email_outflow.html', data)
             )
-            
+
             return 'Success notification'
     except Exception as e:
         return f"Failed notification: {str(e)}"
