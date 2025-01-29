@@ -11,7 +11,10 @@ services:
     depends_on:
       - db
     command: >
-      sh -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+      sh -c "python3 manage.py wait_for_db && \
+      python3 manage.py migrate && \ 
+      python3 manage.py createuser && \
+      python3 manage.py runserver 0.0.0.0:8000"
 
   celery-worker:
     image: sge-app:0.0.1
@@ -53,7 +56,7 @@ services:
   
   db:
     container_name: db-sge
-    image: postgres:latest
+    image: postgres:17-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
