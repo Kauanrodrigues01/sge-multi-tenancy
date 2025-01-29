@@ -158,10 +158,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'authentication:login'
 
-if DEBUG:
-    INSTALLED_APPS += ['django_extensions']
-
-
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,
