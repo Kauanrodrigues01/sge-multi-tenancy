@@ -32,7 +32,9 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default='*')
 
 # Application definition
 
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    'django_celery_results',
+]
 
 LOCAL_APPS = [
     'brands',
@@ -211,3 +213,12 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', cast=str, default='undefined
 DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', cast=str, default='undefined')
 
 MY_EMAIL = config('MY_EMAIL', cast=str, default='undefined')
+
+# Config Celery
+CELERY_BROKER_URL = config('CELERY_BROKER_URL', cast=str, default='redis://localhost:6379/0')
+CELERY_TIMEZONE = "America/Sao_Paulo"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+# Config Django Celery Results
+CELERY_RESULT_BACKEND = "django-db"

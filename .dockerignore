@@ -92,3 +92,6 @@ venv/
 
 db.sqlite3
 README.md
+tasks.py
+requirements_dev.txt
+celerybeat-schedule

@@ -7,7 +7,7 @@ from django.core import serializers
 from products.models import Product
 from outflows.models import Outflow
 from django.db.models import F
-from django.utils.timezone import localdate
+
 
 class SGEAgent:
     
@@ -32,13 +32,14 @@ class SGEAgent:
         })
         
     def invoke(self):
-        current_date = localdate()
-        
-        if not AIResult.objects.filter(created_at__date=current_date).exists():
+        try:
             chat = self.__client.start_chat()
             
             response = chat.send_message(prompts.USER_PROMPT.replace('{{data}}', self.__get_data()))
             
             result = response.text
-        
-            AIResult.objects.create(result=result)        
+
+            AIResult.objects.create(result=result)
+            return f'AI Result: {result}'
+        except Exception as e:
+            return str(e)

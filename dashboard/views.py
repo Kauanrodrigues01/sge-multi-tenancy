@@ -3,19 +3,18 @@ from django.shortcuts import render
 from utils import metrics
 from django.contrib.auth.decorators import login_required
 from ai.models import AIResult
-from services.agent import SGEAgent
 
-agent = SGEAgent()
 
 @login_required
-def home(request):
-    agent.invoke()
-    
+def home(request):    
     daily_sales_data = metrics.get_daily_sales_data()
     daily_sales_quantity_data = metrics.get_daily_sales_quantity_data()
     graphic_product_category_metric = metrics.get_graphic_product_category_metric()
     graphic_product_brand_metric = metrics.get_graphic_product_brand_metric()
-    ai_result = AIResult.objects.first().result
+    try:
+        ai_result = AIResult.objects.first().result
+    except:
+        ai_result = None
     
     context = {
         'page_dashboard_is_active': 'active',
