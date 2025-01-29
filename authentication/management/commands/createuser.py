@@ -6,6 +6,7 @@ SUPERUSER_USERNAME = config('SUPERUSER_USERNAME', default='admin', cast=str)
 SUPERUSER_EMAIL = config('SUPERUSER_EMAIL', default='admin@gmail.com', cast=str)
 SUPERUSER_PASSWORD = config('SUPERUSER_PASSWORD', default='admin', cast=str)
 
+
 class Command(BaseCommand):
     help = 'Create a superuser'
 
@@ -14,7 +15,7 @@ class Command(BaseCommand):
             username=SUPERUSER_USERNAME,
             email=SUPERUSER_EMAIL
         )
-        
+
         if created:
             user.set_password(SUPERUSER_PASSWORD)
             user.is_superuser = True
@@ -23,4 +24,3 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS('Superuser created successfully'))
         else:
             self.stdout.write(self.style.WARNING('Superuser already exists'))
-            
