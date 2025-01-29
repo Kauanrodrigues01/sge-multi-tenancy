@@ -4,6 +4,17 @@ O **SGE (Sistema de Gestão de Estoque)** é uma solução completa para o geren
 
 ---
 
+## **🔍 Menu de Navegação**
+- [Principais Funcionalidades](#principais-funcionalidades)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Integrações](#integrações)
+- [Visualização do Sistema](#visualizacao-do-sistema)
+- [Como Configurar o Projeto](#como-configurar-o-projeto)
+  - [Executando com Docker](#executando-com-docker)
+
+---
+
+<span id="principais-funcionalidades"></span>
 ## **Principais Funcionalidades**
 - **Gerenciamento de Estoque**:
   - Controle de produtos, fornecedores, marcas e categorias.
@@ -25,12 +36,10 @@ O **SGE (Sistema de Gestão de Estoque)** é uma solução completa para o geren
 - **Notificações**:
   - Envio de mensagens automáticas via WhatsApp (API da **Evolution**).
   - Envio de e-mails com o próprio Django.
-- **Automatização com Celery**:
-  - **Tarefas agendadas** via Celery Beat para gerar relatórios diários sobre produtos, estoque e demanda.
-  - Integração com **Gemini AI** para fornecer feedback automático baseado em análise de dados.
 
 ---
 
+<span id="tecnologias-utilizadas"></span>
 ## **Tecnologias Utilizadas**
 <p align="left">
   <img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/icons/backend/python.svg" width="40" height="40" alt="Python" />
@@ -41,22 +50,66 @@ O **SGE (Sistema de Gestão de Estoque)** é uma solução completa para o geren
 </p>
 
 - **Back-end**:
-  - **Django** para criação do sistema web e gerenciamento do sistema e envio de e-mails.
+  - **Django** para o criação do sistema web e gerenciamento do sistema e envio de e-mails.
   - Integração com a API da Evolution para envio de mensagens WhatsApp.
   - **Gemini** para integração de IA e fornecimento de insights.
-  - **Celery e Celery Beat** para tarefas agendadas e processamento assíncrono.
 - **Front-end**:
   - **Bootstrap** para estilização.
   - **Chart.js** para criação de gráficos interativos.
 
 ---
 
-## **Como Rodar o Projeto com Docker**
+<span id="integrações"></span>
+## **Integrações**
 
-### **1. Criar o Arquivo `.env`**
-Antes de iniciar, crie um arquivo `.env` na raiz do projeto com o seguinte conteúdo:
+<img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/images/evolution-api.png" width="180" alt="Evolution API" />
 
-```ini
+- Envio de mensagens automáticas pelo WhatsApp.
+- Alertas de movimentações e baixo estoque.
+
+<img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/images/gemini.png" width="150" alt="Evolution API" />
+
+- IA para sugestões de reposição e insights de otimização.
+
+---
+
+<span id="visualizacao-do-sistema"></span>
+## **Visualização do Sistema**
+
+### **Gráficos**
+
+- **Valor de Vendas (últimos 7 dias):**
+- **Quantidade de Vendas Diárias (últimos 7 dias):**
+- **Produtos por Marca:**
+- **Produtos por Categoria:**
+
+> *Adicionar aqui imagens de exemplos de gráficos gerados.*
+
+### **Métricas**
+
+- **Produtos**:
+  - Quantidade Total: `total_quantity`
+  - Custo Total: `total_cost_price`
+  - Preço de Venda Total: `total_selling_price`
+  - Lucro Total: `total_profit`
+- **Vendas**:
+  - Total de Vendas: `total_sales`
+  - Total de Produtos Vendidos: `total_products_sold`
+  - Valor Total de Vendas: `total_sales_value`
+  - Lucro Total de Vendas: `total_sales_profit`
+
+> *Adicionar aqui imagens de exemplos de visualização de métricas.*
+
+---
+
+<span id="como-configurar-o-projeto"></span>
+## **🛠️ Como Configurar o Projeto**
+
+<span id="executando-com-docker"></span>
+### **Executando com Docker**
+
+1. Crie um arquivo `.env` na raiz do projeto e adicione as seguintes variáveis:
+```env
 # DJANGO SETTINGS
 SECRET_KEY=django-insecure-h3y=dr4aic$ts$)z6_ngy%8!dkhd*n05l*wb1nwn+2ml&ep8qv
 DEBUG=True
@@ -83,8 +136,8 @@ EMAIL_HOST_PASSWORD=@Test01020202010
 MY_EMAIL=myemail@test.com
 
 # URLS FOR DATABASE AND CELERY BROKER
-DATABASE_URL=postgresql://myuser:mypassword@localhost:5432/mydatabase
-CELERY_BROKER_URL=pyamqp://myuser:mypassword@localhost:5672/
+DATABASE_URL=postgresql://postgres:postgres@db-sge:5432/postgres 
+CELERY_BROKER_URL=pyamqp://admin:admin@broker-sge:5672/
 
 # Credentials for superuser
 SUPERUSER_USERNAME=admin
@@ -92,26 +145,17 @@ SUPERUSER_EMAIL=kauanrl09@gmail.com
 SUPERUSER_PASSWORD=admin
 ```
 
-### **2. Construir e Iniciar os Containers**
-
-Execute os seguintes comandos para construir e iniciar os containers:
-
+2. Construa e inicie os containers:
 ```bash
-# Construir a imagem do projeto
-$ docker compose build -t sge-app:0.0.1
-
-# Iniciar os containers
-$ docker compose up -d
+docker compose build -t sge-app:0.0.1
+docker compose up -d
 ```
 
-Isso iniciará os seguintes serviços:
-- **SGE App**: Aplicação Django
-- **PostgreSQL**: Banco de dados
-- **RabbitMQ**: Broker para Celery
-- **Celery Worker**: Processamento assíncrono
-- **Celery Beat**: Agendador de tarefas
+3. Agora os seguintes containers estarão rodando:
+   - Aplicativo Django
+   - Celery Worker
+   - Celery Beat
+   - RabbitMQ
+   - PostgreSQL
 
-Agora acesse: [http://localhost:8000/](http://localhost:8000/)
-
----
-
+4. Acesse o sistema em: [http://localhost:8000/](http://localhost:8000/)
