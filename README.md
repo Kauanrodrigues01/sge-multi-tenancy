@@ -137,7 +137,7 @@ MY_EMAIL=myemail@test.com
 
 # Credentials for superuser
 SUPERUSER_USERNAME=admin
-SUPERUSER_EMAIL=kauanrl09@gmail.com
+SUPERUSER_EMAIL=admin@gmail.com
 SUPERUSER_PASSWORD=admin
 ```
 
