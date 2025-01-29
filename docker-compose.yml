@@ -8,6 +8,9 @@ services:
       - sge-network
     env_file:
       - .env
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db-sge:5432/postgres 
+      - CELERY_BROKER_URL=pyamqp://admin:admin@broker-sge:5672/
     depends_on:
       - db
     command: >
@@ -23,6 +26,8 @@ services:
       - sge-network
     env_file:
       - .env
+    environment:
+      - CELERY_BROKER_URL=pyamqp://admin:admin@broker-sge:5672/
     depends_on:
       - db
       - broker
@@ -42,6 +47,8 @@ services:
       - sge-network
     env_file:
       - .env
+    environment:
+      - CELERY_BROKER_URL=pyamqp://admin:admin@broker-sge:5672/
     depends_on:
       - db
       - broker

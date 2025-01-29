@@ -135,10 +135,6 @@ EMAIL_HOST_USER=example@test.com
 EMAIL_HOST_PASSWORD=@Test01020202010
 MY_EMAIL=myemail@test.com
 
-# URLS FOR DATABASE AND CELERY BROKER
-DATABASE_URL=postgresql://postgres:postgres@db-sge:5432/postgres 
-CELERY_BROKER_URL=pyamqp://admin:admin@broker-sge:5672/
-
 # Credentials for superuser
 SUPERUSER_USERNAME=admin
 SUPERUSER_EMAIL=kauanrl09@gmail.com
