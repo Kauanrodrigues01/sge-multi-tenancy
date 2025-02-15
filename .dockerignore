@@ -95,3 +95,11 @@ README.md
 tasks.py
 requirements_dev.txt
 celerybeat-schedule
+
+.env.evolution
+docker-compose*
+Dockerfile
+nginx
+scripts
+.flake8
+.pytest_cache 

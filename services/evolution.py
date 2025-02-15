@@ -1,26 +1,29 @@
-import logging
+from functools import cache
 
-from decouple import config
+from django.conf import settings
 from evolutionapi.client import EvolutionClient
 from evolutionapi.models.message import TextMessage
 from evolutionapi.models.message import ButtonMessage, Button
 
-
+@cache
 class EvolutionAPI:
     def __init__(self):
         """
         Initializes the Evolution API client using configuration settings.
         """
-        self.__base_url: str = config('EVOLUTION_API_BASE_URL', cast=str, default='base-url')
-        self.__api_token: str = config('EVOLUTION_API_TOKEN', cast=str, default='api-token')
-        self.__instance_name: str = config('INSTANCE_NAME', cast=str, default='instance-name')
-        self.__instance_token: str = config('INSTANCE_TOKEN', cast=str, default='instance-token')
-        self.__my_number: str = config('MY_NUMBER', cast=str, default='my-number')
+        if not settings.EVOLUTION_API_BASE_URL or not settings.EVOLUTION_API_TOKEN or not settings.INSTANCE_NAME or not settings.INSTANCE_TOKEN:
+            self.__client = None
+            return
+        
+        self.__base_url: str = settings.EVOLUTION_API_BASE_URL
+        self.__api_token: str = settings.EVOLUTION_API_TOKEN
+        self.__instance_name: str = settings.INSTANCE_NAME
+        self.__instance_token: str = settings.INSTANCE_TOKEN
+        self.__my_number: str = settings.MY_NUMBER
         self.__client: EvolutionClient = EvolutionClient(
             base_url=self.__base_url,
             api_token=self.__api_token
         )
-        self.logger = logging.getLogger(__name__)
 
     def send_text_message(self, instance_name: str = None, instance_token: str = None, number: str = None, text: str = None, delay: int = 0) -> dict:
         """
@@ -33,6 +36,9 @@ class EvolutionAPI:
         :param delay: Optional delay in milliseconds before sending the message.
         :return: API response as a dictionary or an error message.
         """
+        if self.__client is None:
+            return None
+        
         message = TextMessage(
             number=number if number else self.__my_number,
             text=text,
@@ -47,9 +53,8 @@ class EvolutionAPI:
             )
             return response
         except Exception as e:
-            # Log the error and return a fallback response
-            self.logger.error(f"Failed to send message: {str(e)}")
-            return {"status": "error", "message": "Failed to send the message"}
+            # Return a simple error message without logging
+            return {"status": "error", "message": f"Failed to send the message: {str(e)}"}
 
     def send_message_with_buttons(self, instance_name: str = '', instance_token: str = '', number: str = None, title: str = '', description: str = '', footer: str = '', buttons: list[Button] = []):
         """
@@ -64,6 +69,9 @@ class EvolutionAPI:
         :param buttons: List of Button objects.
         :return: A dictionary containing the status and response from the API.
         """
+        if self.__client is None:
+            return None
+
         message = ButtonMessage(
             number=number if number else self.__my_number,
             title=title,
@@ -81,9 +89,8 @@ class EvolutionAPI:
 
             return response
         except Exception as e:
-            # Log the error and return a fallback response
-            self.logger.error(f"Failed to send message: {str(e)}")
-            return {"status": "error", "message": "Failed to send the button message"}
+            # Return a simple error message without logging
+            return {"status": "error", "message": f"Failed to send the button message: {str(e)}"}
 
 
 if __name__ == '__main__':

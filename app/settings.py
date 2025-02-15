@@ -32,9 +32,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default='*')
 
 # Application definition
 
-THIRD_PARTY_APPS = [
-    'django_celery_results',
-]
+THIRD_PARTY_APPS = []
 
 LOCAL_APPS = [
     'brands',
@@ -196,10 +194,18 @@ LOGIN_URL = 'authentication:login'
 #     },
 # }
 
+# IA config
+GEMINI_API_KEY = config('GEMINI_API_KEY', cast=str, default='')
+GEMINI_MODEL = config('GEMINI_MODEL', cast=str, default='')
 
-GEMINI_API_KEY = config('GEMINI_API_KEY', cast=str, default='api-key')
-GEMINI_MODEL = config('GEMINI_MODEL', cast=str, default='ia-model')
+# Evolution Config
+EVOLUTION_API_BASE_URL= config('EVOLUTION_API_BASE_URL', cast=str, default='')
+EVOLUTION_API_TOKEN = config('EVOLUTION_API_TOKEN', cast=str, default='')
+INSTANCE_NAME = config('INSTANCE_NAME', cast=str, default='')
+INSTANCE_TOKEN = config('INSTANCE_TOKEN', cast=str, default='')
+MY_NUMBER = config('MY_NUMBER', cast=str, default='my-number')
 
+# Email config
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = config('EMAIL_HOST', cast=str, default='smtp.gmail.com')
 EMAIL_PORT = config('EMAIL_PORT', cast=str, default=587)
@@ -209,12 +215,3 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', cast=str, default='undefined
 DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', cast=str, default='undefined')
 
 MY_EMAIL = config('MY_EMAIL', cast=str, default='undefined')
-
-# Config Celery
-CELERY_BROKER_URL = config('CELERY_BROKER_URL', cast=str, default='redis://localhost:6379/0')
-CELERY_TIMEZONE = "America/Sao_Paulo"
-CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60
-
-# Config Django Celery Results
-CELERY_RESULT_BACKEND = "django-db"

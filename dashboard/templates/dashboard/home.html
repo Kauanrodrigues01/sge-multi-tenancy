@@ -5,8 +5,9 @@
 {% endblock %}
 
 {% block content %}
-
-  {% include 'components/_ai_result.html' %}
+  {% if ai_result %}
+    {% include 'components/_ai_result.html' %}
+  {% endif %}
 
   {% include 'components/_products_metrics.html' %}
   {% include 'components/_sales_metrics.html' %}

@@ -20,58 +20,10 @@ services:
       python3 manage.py migrate && \ 
       python3 manage.py createuser && \
       python3 manage.py runserver 0.0.0.0:8000"
-
-  celery-worker:
-    image: sge-app:0.0.1
-    container_name: sge-celery-worker
-    networks:
-      - sge-network
-    env_file:
-      - .env
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db-sge:5432/postgres 
-      - CELERY_BROKER_URL=pyamqp://admin:admin@broker-sge:5672/
-      - EVOLUTION_API_BASE_URL=http://evolution_api:8080/
-      - EVOLUTION_API_TOKEN=429683C4C977415CAAFCCE10F7D57E11
-    depends_on:
-      - db
-      - broker
-    command: >
-      sh -c "celery -A app worker -l INFO"
-    healthcheck:
-      test: ["CMD", "sh", "-c", "celery -A app status || exit 1"]
-      interval: 10s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
-
-  celery-beat:
-    image: sge-app:0.0.1
-    container_name: sge-celery-beat
-    networks:
-      - sge-network
-    env_file:
-      - .env
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db-sge:5432/postgres 
-      - CELERY_BROKER_URL=pyamqp://admin:admin@broker-sge:5672/
-      - EVOLUTION_API_BASE_URL=http://evolution_api:8080/
-      - EVOLUTION_API_TOKEN=429683C4C977415CAAFCCE10F7D57E11
-    depends_on:
-      - db
-      - broker
-    command: >
-      sh -c "celery -A app beat -l INFO"
-    healthcheck:
-      test: ["CMD", "sh", "-c", "celery -A app status || exit 1"]
-      interval: 10s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
   
   db:
     container_name: db-sge
-    image: postgres:17-alpine
+    image: postgres:17.2-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -80,21 +32,6 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    networks:
-      - sge-network
-
-  broker:
-    image: rabbitmq:3.12-management-alpine
-    container_name: broker-sge
-    restart: unless-stopped
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    environment:
-      RABBITMQ_DEFAULT_USER: admin
-      RABBITMQ_DEFAULT_PASS: admin
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
     networks:
       - sge-network
 
