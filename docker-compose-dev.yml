@@ -10,7 +10,6 @@ services:
       - .env
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db-sge:5432/postgres 
-      - CELERY_BROKER_URL=pyamqp://admin:admin@broker-sge:5672/
       - EVOLUTION_API_BASE_URL=http://evolution_api:8080/
       - EVOLUTION_API_TOKEN=429683C4C977415CAAFCCE10F7D57E11
     depends_on:

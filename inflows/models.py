@@ -1,9 +1,12 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 from products.models import Product
 from suppliers.models import Supplier
 
 
 class Inflow(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='inflows')
     supplier = models.ForeignKey(Supplier, on_delete=models.PROTECT, related_name='inflows')
     product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='inflows')
     quantity = models.IntegerField()
