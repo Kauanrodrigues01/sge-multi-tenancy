@@ -57,7 +57,7 @@ SGE - Marcas
             <i class="bi bi-eye"></i>
             </a>
 
-            {% if perms.brands.update_brand %}
+            {% if perms.brands.change_brand %}
             <a href="{% url 'brands:brand_update' brand.id %}" class="btn btn-warning btn-sm">
             <i class="bi bi-pencil"></i>
             </a>

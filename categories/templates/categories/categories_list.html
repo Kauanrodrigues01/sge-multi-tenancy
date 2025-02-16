@@ -53,7 +53,7 @@ SGE - Categorias
                         <i class="bi bi-eye"></i>
                     </a>
 
-                    {% if perms.categories.update_category %}
+                    {% if perms.categories.change_category %}
                     <a href="{% url 'categories:category_update' category.id %}" class="btn btn-warning btn-sm">
                         <i class="bi bi-pencil"></i>
                     </a>

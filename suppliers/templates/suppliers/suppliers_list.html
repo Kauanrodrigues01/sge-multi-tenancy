@@ -55,7 +55,7 @@ SGE - Fornecedores
                         <i class="bi bi-eye"></i>
                     </a>
 
-                    {% if perms.suppliers.update_supplier %}
+                    {% if perms.suppliers.change_supplier %}
                     <a href="{% url 'suppliers:supplier_update' supplier.id %}" class="btn btn-warning btn-sm">
                         <i class="bi bi-pencil"></i>
                     </a>

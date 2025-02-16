@@ -96,7 +96,7 @@ SGE - Produtos
             <i class="bi bi-eye"></i>
           </a>
 
-          {% if perms.procusts.update_product %}
+          {% if perms.procusts.change_product %}
           <a href="{% url 'products:product_update' product.id %}" class="btn btn-warning btn-sm">
             <i class="bi bi-pencil"></i>
           </a>
