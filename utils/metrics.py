@@ -10,8 +10,11 @@ from outflows.models import Outflow
 from categories.models import Category
 
 
-def get_products_metrics():
-    products_metrics_data = Product.objects.aggregate(
+def get_products_metrics(user=None):
+    if user is None:
+        return None
+
+    products_metrics_data = Product.objects.filter(user=user).aggregate(
         total_quantity=Sum('quantity'),
         total_cost_price=Sum(F('cost_price') * F('quantity')),
         total_selling_price=Sum(F('selling_price') * F('quantity'))
@@ -30,10 +33,15 @@ def get_products_metrics():
     )
 
 
-def get_sales_metrics():
-    total_sales = Outflow.objects.count()
+def get_sales_metrics(user=None):
+    if user is None:
+        return None
 
-    sales_data = Outflow.objects.aggregate(
+    sales = Outflow.objects.filter(user=user)
+    
+    total_sales = sales.count()
+
+    sales_data = sales.aggregate(
         total_products_sold=Sum('quantity'),
         total_sales_value=Sum(F('product__selling_price') * F('quantity')),
         total_sales_cost=Sum(F('product__cost_price') * F('quantity'))
@@ -52,13 +60,17 @@ def get_sales_metrics():
     )
 
 
-def get_daily_sales_data():
+def get_daily_sales_data(user=None):
+    if user is None:
+        return None
+
     today = localdate()
     dates = [today - timedelta(days=i) for i in range(6, -1, -1)]
     values = []
 
     for date in dates:
         sales_total = Outflow.objects.filter(
+            user=user,
             created_at__date=str(date)
         ).aggregate(
             total_sales=Sum(F('product__selling_price') * F('quantity'))
@@ -73,13 +85,16 @@ def get_daily_sales_data():
     )
 
 
-def get_daily_sales_quantity_data():
+def get_daily_sales_quantity_data(user=None):
+    if user is None:
+        return None
+
     today = localdate()
     dates = [today - timedelta(days=i) for i in range(6, -1, -1)]
     values = list()
 
     for date in dates:
-        sales_quantity = Outflow.objects.filter(created_at__date=str(date)).count()
+        sales_quantity = Outflow.objects.filter(user=user, created_at__date=str(date)).count()
         values.append(sales_quantity)
 
     dates = [date_format(date, format='d/m') for date in dates]
@@ -90,18 +105,24 @@ def get_daily_sales_quantity_data():
     )
 
 
-def get_graphic_product_category_metric():
-    categories = Category.objects.all()
-    data = {category.name: Product.objects.filter(category=category).count() for category in categories}
+def get_graphic_product_category_metric(user=None):
+    if user is None:
+        return None
+
+    categories = Category.objects.filter(user=user)
+    data = {category.name: Product.objects.filter(user=user, category=category).count() for category in categories}
 
     filtered_data = {k: v for k, v in data.items() if v > 0}
 
     return filtered_data
 
 
-def get_graphic_product_brand_metric():
-    brands = Brand.objects.all()
-    data = {brand.name: Product.objects.filter(brand=brand).count() for brand in brands}
+def get_graphic_product_brand_metric(user=None):
+    if user is None:
+        return None
+
+    brands = Brand.objects.filter(user=user)
+    data = {brand.name: Product.objects.filter(user=user, brand=brand).count() for brand in brands}
 
     filtered_data = {k: v for k, v in data.items() if v > 0}
 
