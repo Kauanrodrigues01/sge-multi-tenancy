@@ -1,4 +1,7 @@
 from django import forms
+
+from products.models import Product
+from suppliers.models import Supplier
 from . import models
 
 
@@ -19,3 +22,13 @@ class InflowForm(forms.ModelForm):
             'quantity': 'Quantidade',
             'description': 'Descrição',
         }
+
+    def __init__(self, *args, user=None,**kwargs):
+        super().__init__(*args, **kwargs)
+
+        if user:
+            self.fields['product'].queryset = Product.objects.filter(user=user)
+            self.fields['supplier'].queryset = Supplier.objects.filter(user=user)
+        else:
+            self.fields['product'].queryset = Product.objects.none()
+            self.fields['supplier'].queryset = Supplier.objects.none()

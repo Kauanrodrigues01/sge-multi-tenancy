@@ -1,4 +1,7 @@
 from django import forms
+
+from brands.models import Brand
+from categories.models import Category
 from . import models
 
 
@@ -9,7 +12,7 @@ class ProductForm(forms.ModelForm):
         fields = ['title', 'category', 'brand', 'description', 'serie_number', 'cost_price', 'selling_price']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'category': forms.Select(attrs={'class': 'form-control'}),
+            'category': forms.Select(attrs={'class': 'form-control'},),
             'brand': forms.Select(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'serie_number': forms.TextInput(attrs={'class': 'form-control'}),
@@ -25,3 +28,14 @@ class ProductForm(forms.ModelForm):
             'cost_price': 'Preço de Custo',
             'selling_price': 'Preço de Venda',
         }
+
+    def __init__(self, *args, user=None, **kwargs):
+        """Filtra as categorias e marcas com base no usuário logado"""
+        super().__init__(*args, **kwargs)
+
+        if user:
+            self.fields['category'].queryset = Category.objects.filter(user=user)
+            self.fields['brand'].queryset = Brand.objects.filter(user=user)
+        else:
+            self.fields['category'].queryset = Category.objects.none()
+            self.fields['brand'].queryset = Brand.objects.none()

@@ -38,6 +38,11 @@ class InflowCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     success_url = reverse_lazy('inflows:inflows_list')
     permission_required = 'inflows.add_inflow'
 
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
+        return form_class(user=self.request.user, **self.get_form_kwargs())
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_inflow_is_active'] = 'active'

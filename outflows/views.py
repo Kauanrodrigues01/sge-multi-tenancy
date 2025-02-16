@@ -40,6 +40,11 @@ class OutflowCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
     success_url = reverse_lazy('outflows:outflows_list')
     permission_required = 'outflows.add_outflow'
 
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
+        return form_class(user=self.request.user, **self.get_form_kwargs())
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_outflow_is_active'] = 'active'
