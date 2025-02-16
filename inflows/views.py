@@ -1,4 +1,5 @@
 from django.urls import reverse_lazy
+from django.core.exceptions import PermissionDenied
 from django.views.generic import ListView, CreateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
@@ -15,6 +16,8 @@ class InflowListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        queryset = queryset.filter(user=self.request.user)
+
         product = self.request.GET.get('name')
 
         if product:
@@ -40,12 +43,22 @@ class InflowCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         context['page_inflow_is_active'] = 'active'
         return context
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
 
 class InflowDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Inflow
     template_name = 'inflows/inflow_detail.html'
     context_object_name = 'inflow'
     permission_required = 'inflows.view_inflow'
+    
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.user != self.request.user:
+            raise PermissionDenied
+        return obj
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

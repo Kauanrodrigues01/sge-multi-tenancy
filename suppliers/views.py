@@ -1,4 +1,5 @@
 from django.urls import reverse_lazy
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 
@@ -15,6 +16,7 @@ class SupplierListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        queryset = queryset.filter(user=self.request.user)
         name = self.request.GET.get('name')
 
         if name:
@@ -40,12 +42,22 @@ class SupplierCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView
         context['page_supplier_is_active'] = 'active'
         return context
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
 
 class SupplierDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Supplier
     template_name = 'suppliers/supplier_detail.html'
     context_object_name = 'supplier'
     permission_required = 'suppliers.view_supplier'
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.user != self.request.user:
+            raise PermissionDenied
+        return obj
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -61,6 +73,12 @@ class SupplierUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView
     success_url = reverse_lazy('suppliers:suppliers_list')
     permission_required = 'suppliers.change_supplier'
 
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.user != self.request.user:
+            raise PermissionDenied
+        return obj
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_supplier_is_active'] = 'active'
@@ -73,6 +91,12 @@ class SupplierDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView
     context_object_name = 'supplier'
     success_url = reverse_lazy('suppliers:suppliers_list')
     permission_required = 'suppliers.delete_supplier'
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.user != self.request.user:
+            raise PermissionDenied
+        return obj
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

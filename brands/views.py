@@ -1,4 +1,5 @@
 from django.urls import reverse_lazy
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 
@@ -15,6 +16,8 @@ class BrandListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        queryset = queryset.filter(user=self.request.user)
+
         name = self.request.GET.get('name')
 
         if name:
@@ -26,6 +29,7 @@ class BrandListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['page_brand_is_active'] = 'active'
         return context
+
 
 
 class BrandCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -40,12 +44,22 @@ class BrandCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         context['page_brand_is_active'] = 'active'
         return context
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
 
 class BrandDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Brand
     template_name = 'brands/brand_detail.html'
     context_object_name = 'brand'
     permission_required = 'brands.view_brand'
+    
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.user != self.request.user:
+            raise PermissionDenied
+        return obj
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -60,6 +74,12 @@ class BrandUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     context_object_name = 'brand'
     success_url = reverse_lazy('brands:brands_list')
     permission_required = 'brands.change_brand'
+    
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.user != self.request.user:
+            raise PermissionDenied
+        return obj
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -73,6 +93,12 @@ class BrandDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     context_object_name = 'brand'
     success_url = reverse_lazy('brands:brands_list')
     permission_required = 'brands.delete_brand'
+    
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.user != self.request.user:
+            raise PermissionDenied
+        return obj
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
