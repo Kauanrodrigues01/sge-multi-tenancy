@@ -199,7 +199,7 @@ GEMINI_API_KEY = config('GEMINI_API_KEY', cast=str, default='')
 GEMINI_MODEL = config('GEMINI_MODEL', cast=str, default='')
 
 # Evolution Config
-EVOLUTION_API_BASE_URL= config('EVOLUTION_API_BASE_URL', cast=str, default='')
+EVOLUTION_API_BASE_URL = config('EVOLUTION_API_BASE_URL', cast=str, default='')
 EVOLUTION_API_TOKEN = config('EVOLUTION_API_TOKEN', cast=str, default='')
 INSTANCE_NAME = config('INSTANCE_NAME', cast=str, default='')
 INSTANCE_TOKEN = config('INSTANCE_TOKEN', cast=str, default='')

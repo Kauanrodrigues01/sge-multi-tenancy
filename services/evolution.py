@@ -1,11 +1,9 @@
-from functools import cache
-
 from django.conf import settings
 from evolutionapi.client import EvolutionClient
 from evolutionapi.models.message import TextMessage
 from evolutionapi.models.message import ButtonMessage, Button
 
-@cache
+
 class EvolutionAPI:
     def __init__(self):
         """
@@ -14,7 +12,7 @@ class EvolutionAPI:
         if not settings.EVOLUTION_API_BASE_URL or not settings.EVOLUTION_API_TOKEN or not settings.INSTANCE_NAME or not settings.INSTANCE_TOKEN:
             self.__client = None
             return
-        
+
         self.__base_url: str = settings.EVOLUTION_API_BASE_URL
         self.__api_token: str = settings.EVOLUTION_API_TOKEN
         self.__instance_name: str = settings.INSTANCE_NAME
@@ -38,7 +36,7 @@ class EvolutionAPI:
         """
         if self.__client is None:
             return None
-        
+
         message = TextMessage(
             number=number if number else self.__my_number,
             text=text,

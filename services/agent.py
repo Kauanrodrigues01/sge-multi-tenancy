@@ -1,5 +1,4 @@
 import json
-from functools import cache
 
 from django.db.models import F
 from django.conf import settings
@@ -12,7 +11,7 @@ from ai.models import AIResult
 from products.models import Product
 from outflows.models import Outflow
 
-@cache
+
 class SGEAgent:
     """
     This class handles the integration with a generative AI model from Google (Gemini).
@@ -36,7 +35,7 @@ class SGEAgent:
         if settings.GEMINI_API_KEY == '' or settings.GEMINI_MODEL == '':
             self.__client = None
             return
-        
+
         genai.configure(api_key=settings.GEMINI_API_KEY)
 
         self.__client = genai.GenerativeModel(
@@ -47,7 +46,7 @@ class SGEAgent:
     def __get_data(self):
         """
         Retrieves and serializes the data for products and outflows to be sent to the generative AI model.
-        
+
         This method fetches all products and outflows from the database and prepares them as a JSON-formatted string.
         The data is serialized using Django's `serializers` module.
 
@@ -81,7 +80,7 @@ class SGEAgent:
         """
         if self.__client is None:
             return None
-        
+
         current_date = localdate()
 
         try:
