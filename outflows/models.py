@@ -9,6 +9,8 @@ class Outflow(models.Model):
     product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='outflows')
     quantity = models.IntegerField()
     description = models.TextField(null=True, blank=True)
+    cost_price = models.DecimalField(max_digits=10, decimal_places=2, null=True)  # Preço de custo no momento da saída de procutos
+    selling_price = models.DecimalField(max_digits=10, decimal_places=2, null=True)  # Preço de venda no momento da saída de procutos
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

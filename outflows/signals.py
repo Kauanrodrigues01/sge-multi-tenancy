@@ -1,14 +1,16 @@
 from datetime import datetime
 
-from django.db.models.signals import post_save
+from django.conf import settings
+from django.db import transaction
 from django.dispatch import receiver
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-from django.conf import settings
+from django.db.models.signals import post_save, pre_save
 
 from services.evolution import EvolutionAPI
-from middlewares.thread_local_middleware import get_current_user
 from utils.messages import create_outflow_message
+from middlewares.thread_local_middleware import get_current_user
+from inflows.models import Inflow
 from .models import Outflow
 
 
@@ -16,9 +18,46 @@ from .models import Outflow
 def update_product_quantity(sender, instance, created, **kwargs):
     if created:
         if instance.quantity > 0:
-            product = instance.product
-            product.quantity -= instance.quantity
-            product.save()
+            outflow_quantity = instance.quantity
+
+            if outflow_quantity > instance.product.quantity:
+                instance.delete()
+                return
+
+            try:
+                with transaction.atomic():
+                    inflows = Inflow.objects.filter(product=instance.product, quantity__gt=0).order_by('created_at')  # Ordenando para usar os inflows mais antigos primeiro
+
+                    for inflow in inflows:
+                        print(inflow.created_at)
+                        inflow_quantity = inflow.quantity
+
+                        if outflow_quantity > inflow_quantity:
+                            # saida maior que entrada
+                            inflow.quantity = 0
+                            inflow.save()
+                            outflow_quantity -= inflow_quantity
+
+                        elif inflow_quantity > outflow_quantity:
+                            # entrada maior que saida
+                            inflow.quantity -= outflow_quantity
+                            inflow.save()
+                            break
+
+                        else:  # entrada igual a saida
+                            inflow.quantity = 0
+                            inflow.save()
+                            break
+            except Exception as e:
+                print(f'Erro ao processar a transação: {e}')
+                raise
+
+
+@receiver(pre_save, sender=Outflow)
+def set_outflow_prices(sender, instance, **kwargs):
+    """Antes de salvar um Outflow, armazena os preços do produto no momento da saída."""
+    instance.cost_price = instance.product.cost_price
+    instance.selling_price = instance.product.selling_price
 
 
 @receiver(post_save, sender=Outflow)

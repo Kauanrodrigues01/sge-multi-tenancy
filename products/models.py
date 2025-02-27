@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from categories.models import Category
 from brands.models import Brand
+from inflows.models import Inflow
+from categories.models import Category
 
 
 class Product(models.Model):
@@ -14,7 +15,6 @@ class Product(models.Model):
     serie_number = models.CharField(max_length=200, null=True, blank=True)
     cost_price = models.DecimalField(max_digits=20, decimal_places=2)
     selling_price = models.DecimalField(max_digits=20, decimal_places=2)
-    quantity = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -25,3 +25,10 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def quantity(self):
+        inflows = Inflow.objects.filter(product=self).aggregate(
+            total_quantity=models.Sum('quantity')
+        )
+        return inflows['total_quantity'] or 0

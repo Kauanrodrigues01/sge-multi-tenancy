@@ -5,6 +5,7 @@ from django.utils.timezone import localdate
 from django.utils.formats import number_format, date_format
 
 from brands.models import Brand
+from inflows.models import Inflow
 from products.models import Product
 from outflows.models import Outflow
 from categories.models import Category
@@ -14,17 +15,29 @@ def get_products_metrics(user=None):
     if user is None:
         return None
 
-    products_metrics_data = Product.objects.filter(user=user).aggregate(
-        total_quantity=Sum('quantity'),
-        total_cost_price=Sum(F('cost_price') * F('quantity')),
-        total_selling_price=Sum(F('selling_price') * F('quantity'))
-    )
+    # Pegando todos os produtos do usuário
+    products = Product.objects.filter(user=user)
+    inflows = Inflow.objects.filter(user=user)
 
-    total_quantity = products_metrics_data['total_quantity'] or 0
-    total_cost_price = products_metrics_data['total_cost_price'] or 0
-    total_selling_price = products_metrics_data['total_selling_price'] or 0
+    # Calculando as métricas com base nas propriedades
+    total_quantity = 0
+    total_cost_price = 0
+    total_selling_price = 0
+
+    for product in products:
+        # Calcule a quantidade de cada produto
+        total_quantity += product.quantity  # Aqui a quantity é a propriedade do modelo
+
+        # Calculando o preço total (selling_price) com base na quantity
+        total_selling_price += product.selling_price * product.quantity
+
+    for inflow in inflows:
+        total_cost_price += inflow.quantity * inflow.cost_price
+
+    # Calculando o lucro
     total_profit = total_selling_price - total_cost_price
 
+    # Retornando os resultados
     return dict(
         total_quantity=total_quantity,
         total_cost_price=number_format(total_cost_price, decimal_pos=2, force_grouping=True),
@@ -38,13 +51,13 @@ def get_sales_metrics(user=None):
         return None
 
     sales = Outflow.objects.filter(user=user)
-    
+
     total_sales = sales.count()
 
     sales_data = sales.aggregate(
         total_products_sold=Sum('quantity'),
-        total_sales_value=Sum(F('product__selling_price') * F('quantity')),
-        total_sales_cost=Sum(F('product__cost_price') * F('quantity'))
+        total_sales_value=Sum(F('selling_price') * F('quantity')),
+        total_sales_cost=Sum(F('cost_price') * F('quantity'))
     )
 
     total_products_sold = sales_data['total_products_sold'] or 0
@@ -73,7 +86,7 @@ def get_daily_sales_data(user=None):
             user=user,
             created_at__date=str(date)
         ).aggregate(
-            total_sales=Sum(F('product__selling_price') * F('quantity'))
+            total_sales=Sum(F('selling_price') * F('quantity'))
         )['total_sales'] or 0
         values.append(float(sales_total))
 
