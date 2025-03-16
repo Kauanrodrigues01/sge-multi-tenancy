@@ -15,5 +15,6 @@ from .models import Inflow
 @receiver(pre_save, sender=Inflow)
 def set_inflow_prices(sender, instance, **kwargs):
     """Antes de salvar um Inflow, armazena os preços do produto no momento da entrada."""
-    instance.cost_price = instance.product.cost_price
-    instance.selling_price = instance.product.selling_price
+    if not instance.pk:
+        instance.cost_price = instance.product.cost_price
+        instance.selling_price = instance.product.selling_price

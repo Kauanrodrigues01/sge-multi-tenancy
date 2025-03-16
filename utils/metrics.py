@@ -57,7 +57,7 @@ def get_sales_metrics(user=None):
     sales_data = sales.aggregate(
         total_products_sold=Sum('quantity'),
         total_sales_value=Sum(F('selling_price') * F('quantity')),
-        total_sales_cost=Sum(F('cost_price') * F('quantity'))
+        total_sales_cost=Sum(F('total_cost_price'))
     )
 
     total_products_sold = sales_data['total_products_sold'] or 0
