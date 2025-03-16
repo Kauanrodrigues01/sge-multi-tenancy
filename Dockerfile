@@ -53,15 +53,16 @@ RUN apk add --no-cache curl && \
 
 RUN chown userapp:userapp /app && \
     mkdir -p /app/static && \
-    chmod -R 777 /app/static
+    chmod -R 777 /app/static && \
+    mkdir -p /app/uwsgi && \
+    chmod -R 777 /app/uwsgi
+
 
 ENV SECRET_KEY=django-insecure-h3y=dr4aic$ts$)z6_ngy%8!dkhd*n05l*wb1nwn+2ml&ep8qv \
     DEBUG=True \
     ALLOWED_HOSTS=* \
     LANGUAGE_CODE=pt-br \
     TIME_ZONE=America/Fortaleza
-
-HEALTHCHECK --interval=10s --timeout=10s --start-period=5s --retries=3 CMD [ "sh", "-c", "curl -sf http://localhost:8000/login/ || exit 1" ]
 
 EXPOSE 8000
 
