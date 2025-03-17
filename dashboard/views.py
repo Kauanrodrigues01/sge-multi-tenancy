@@ -12,7 +12,7 @@ from services.agent import SGEAgent
 def home(request):
     agent = SGEAgent()
     agent.invoke()
-    
+
     user = request.user
 
     daily_sales_data = metrics.get_daily_sales_data(user=user)

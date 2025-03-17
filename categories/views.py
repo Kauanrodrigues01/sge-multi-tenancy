@@ -73,7 +73,7 @@ class CategoryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView
     context_object_name = 'category'
     success_url = reverse_lazy('categories:categories_list')
     permission_required = 'categories.change_category'
-    
+
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
         if obj.user != self.request.user:

@@ -58,7 +58,7 @@ class InflowDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     template_name = 'inflows/inflow_detail.html'
     context_object_name = 'inflow'
     permission_required = 'inflows.view_inflow'
-    
+
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
         if obj.user != self.request.user:

@@ -31,7 +31,6 @@ class BrandListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         return context
 
 
-
 class BrandCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Brand
     template_name = 'brands/brand_create.html'
@@ -54,7 +53,7 @@ class BrandDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     template_name = 'brands/brand_detail.html'
     context_object_name = 'brand'
     permission_required = 'brands.view_brand'
-    
+
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
         if obj.user != self.request.user:
@@ -74,7 +73,7 @@ class BrandUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     context_object_name = 'brand'
     success_url = reverse_lazy('brands:brands_list')
     permission_required = 'brands.change_brand'
-    
+
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
         if obj.user != self.request.user:
@@ -93,7 +92,7 @@ class BrandDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     context_object_name = 'brand'
     success_url = reverse_lazy('brands:brands_list')
     permission_required = 'brands.delete_brand'
-    
+
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
         if obj.user != self.request.user:

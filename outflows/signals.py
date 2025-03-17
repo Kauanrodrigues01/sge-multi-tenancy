@@ -1,15 +1,15 @@
-from datetime import datetime
+# from datetime import datetime
 
-from django.conf import settings
+# from django.conf import settings
 from django.db import transaction
 from django.dispatch import receiver
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
+# from django.core.mail import send_mail
+# from django.template.loader import render_to_string
 from django.db.models.signals import post_save, pre_save
 
-from services.evolution import EvolutionAPI
-from utils.messages import create_outflow_message
-from middlewares.thread_local_middleware import get_current_user
+# from services.evolution import EvolutionAPI
+# from utils.messages import create_outflow_message
+# from middlewares.thread_local_middleware import get_current_user
 from inflows.models import Inflow
 from .models import Outflow
 
@@ -37,14 +37,14 @@ def update_product_quantity(sender, instance, created, **kwargs):
                             inflow.quantity = 0
                             inflow.save()
                             outflow_quantity -= inflow_quantity
-                            
+
                             # calcula o custo total
                             total_cost_price += inflow_quantity * inflow.cost_price
 
                         elif inflow_quantity > outflow_quantity:  # entrada maior que saida
                             inflow.quantity -= outflow_quantity
                             inflow.save()
-                            
+
                             # calcula o custo total
                             total_cost_price += outflow_quantity * inflow.cost_price
                             break
@@ -52,7 +52,7 @@ def update_product_quantity(sender, instance, created, **kwargs):
                         else:  # entrada igual a saida
                             inflow.quantity = 0
                             inflow.save()
-                            
+
                             # calcula o custo total
                             total_cost_price += inflow_quantity * inflow.cost_price
                             break

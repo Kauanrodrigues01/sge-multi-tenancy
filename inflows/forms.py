@@ -23,7 +23,7 @@ class InflowForm(forms.ModelForm):
             'description': 'Descrição',
         }
 
-    def __init__(self, *args, user=None,**kwargs):
+    def __init__(self, *args, user=None, **kwargs):
         super().__init__(*args, **kwargs)
 
         if user:
