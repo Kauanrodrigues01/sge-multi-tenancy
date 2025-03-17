@@ -70,10 +70,10 @@ class Command(BaseCommand):
                             metavar='SECONDS', action='store',
                             help='how long to wait for the database before '
                                  'timing out (seconds), default: 180')
-        parser.add_argument('--stable', '-s', type=int, default=5,
+        parser.add_argument('--stable', '-s', type=int, default=2,
                             metavar='SECONDS', action='store',
                             help='how long to observe whether connection '
-                                 'is stable (seconds), default: 5')
+                                 'is stable (seconds), default: 2')
         parser.add_argument('--wait-when-down', '-d', type=int, default=2,
                             metavar='SECONDS', action='store',
                             help='delay between checks when database is '
