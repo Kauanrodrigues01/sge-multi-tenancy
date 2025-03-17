@@ -1,0 +1,101 @@
+name: Continuos Integration in Django application with Deployment to AWS EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Get Docker Hub token
+      id: get_token
+      run: |
+        RESPONSE=$(curl -s -X POST "https://hub.docker.com/v2/users/login/" \
+          -H "Content-Type: application/json" \
+          -d '{"username": "${{ secrets.DOCKER_USERNAME }}", "password": "${{ secrets.DOCKER_PASSWORD }}"}')
+        TOKEN=$(echo "$RESPONSE" | grep -o '"token":"[^"]*"' | cut -d'"' -f4)
+        echo "Docker Hub token: $TOKEN"
+        echo "TOKEN=$TOKEN" >> $GITHUB_ENV
+
+    - name: Get the latest tag from Docker Hub
+      id: get_latest_tag
+      run: |
+        # Obtém todas as tags da imagem
+        TAGS=$(curl -s -H "Authorization: Bearer $TOKEN" \
+          "https://hub.docker.com/v2/namespaces/kauanrodrigues01/repositories/sge/tags/?page_size=100")
+
+        # Extrai as tags e ordena para encontrar a última versão válida
+        LATEST_TAG=$(echo "$TAGS" | grep -o '"name":"[^"]*"' | cut -d'"' -f4 | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n 1)
+
+        # Se não houver tags anteriores, começar com v0.0.1
+        if [ -z "$LATEST_TAG" ]; then
+          NEW_VERSION="v0.0.1"
+        else
+          # Extrai major, minor e patch
+          MAJOR=$(echo "$LATEST_TAG" | cut -d'.' -f1 | sed 's/v//')
+          MINOR=$(echo "$LATEST_TAG" | cut -d'.' -f2)
+          PATCH=$(echo "$LATEST_TAG" | cut -d'.' -f3)
+
+          # Se o patch chegar a 9, incrementar o minor e resetar o patch
+          if [ "$PATCH" -eq 9 ]; then
+            MINOR=$((MINOR + 1))
+            PATCH=0
+          else
+            PATCH=$((PATCH + 1))
+          fi
+
+          # Formata a nova versão
+          NEW_VERSION="v${MAJOR}.${MINOR}.${PATCH}"
+        fi
+
+        echo "Latest tag is: $LATEST_TAG"
+        echo "New version is: $NEW_VERSION"
+        echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+    - name: Build the Docker image
+      run: |
+        docker pull kauanrodrigues01/sge:latest
+        docker tag kauanrodrigues01/sge:latest kauanrodrigues01/sge:$NEW_VERSION
+        docker rmi -f kauanrodrigues01/sge:latest
+        docker build -t kauanrodrigues01/sge:latest .
+
+    - name: Push the Docker images
+      run: |
+        docker push kauanrodrigues01/sge:$NEW_VERSION
+        docker push kauanrodrigues01/sge:latest
+
+  deploy_sge:
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    runs-on: ubuntu-22.04
+    needs: build
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Deploy to AWS EC2
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST_SGE }}
+        username: ${{ secrets.EC2_USERNAME_SGE }}
+        key: ${{ secrets.EC2_KEY_SGE }}
+        script: |
+          sudo su
+          cd /var/www/sge
+          sudo docker compose down
+          sudo docker compose pull
+          sudo docker compose up -d

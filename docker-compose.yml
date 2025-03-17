@@ -1,6 +1,6 @@
 services:
   sge:
-    build: .
+    image: kauanrodrigues01/sge:latest
     container_name: sge-app
     restart: always
     networks:
