@@ -13,7 +13,7 @@ SGE - Produtos
 <div class="mb-4"></div>
 
 <div class="row mb-3">
-  <div class="col-md-6 mb-3 mb-md-0">
+  <div class="col-md-6 mb-md-0">
     <form method="get" action="{% url 'products:products_list' %}">
       <div class="input-group">
         <input type="text" class="form-control" name="title" placeholder="Título" value="{{ request.GET.title }}">
@@ -28,7 +28,7 @@ SGE - Produtos
 
   {% if perms.products.add_product %}
   <div class="col-md-6">
-    <a href="{% url 'products:product_create' %}" class="btn btn-success float-end">
+    <a href="{% url 'products:product_create' %}" class="btn btn-success float-end mt-3 mt-sm-0">
       <i class="bi bi-plus"></i> Novo Produto
     </a>
   </div>
