@@ -1,9 +1,161 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg navbar-light bg-dark d-none d-sm-block fixed-top">
-  <div class="container-fluid">
-    <div class="navbar-brand ms-7 d-flex align-items-center">
-      <img src="{% static '/images/logo.png' %}" alt="" class="" style="width: 25px;">
-      <a class="text-white text-decoration-none ms-2" href="">Sistema de Gestão de Estoque (SGE)</a>
+<!-- Header com botão para abrir o sidebar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top" style="z-index: 1050;">
+  <div class="container-fluid d-flex align-items-center">
+    <!-- Botão para abrir o sidebar (menu hambúrguer) -->
+    <button class="sidebar-custom-button border border-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span> <!-- Ícone do botão hambúrguer -->
+    </button>
+
+    <!-- Logo + título -->
+    <div class="navbar-brand d-none d-sm-flex align-items-center me-auto ms-4">
+      <img src="{% static '/images/logo.png' %}" alt="Logo" style="width: 25px;">
+      <a class="text-white text-decoration-none ms-2" href="#">Sistema de Gestão de Estoque (SGE)</a>
     </div>
+
+    <!-- Botão de tema -->
+    <button id="themeToggle" type="button" class="btn btn-sm btn-outline-light ms-2">🌓 Tema</button>
   </div>
 </nav>
+
+<!-- Sidebar (Offcanvas) -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+  <div class="offcanvas-header">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+
+      <li class="nav-item">
+        <a class="nav-link {{ page_dashboard_is_active|default:'' }}" aria-current="page" href="{% url 'dashboard:home' %}">
+          <i class="bi bi-speedometer2 fs-4"></i>
+          <span class="ms-1">Dashboard</span>
+        </a>
+      </li>
+
+      {% if perms.suppliers.view_supplier %}
+      <li class="nav-item">
+        <a class="nav-link {{ page_supplier_is_active|default:'' }}" href="{% url 'suppliers:suppliers_list' %}">
+          <i class="bi bi-truck fs-4"></i>
+          <span class="ms-1">Fornecedores</span>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if perms.brands.view_brand %}
+      <li class="nav-item">
+        <a class="nav-link {{ page_brand_is_active|default:'' }}" href="{% url 'brands:brands_list' %}">
+          <i class="bi bi-shop fs-4"></i>
+          <span class="ms-1">Marcas</span>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if perms.categories.view_category %}
+      <li class="nav-item">
+        <a class="nav-link {{ page_category_is_active|default:'' }}" href="{% url 'categories:categories_list' %}">
+          <i class="bi bi-tags fs-4"></i>
+          <span class="ms-1">Categorias</span>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if perms.products.view_product %}
+      <li class="nav-item">
+        <a class="nav-link {{ page_product_is_active }}" href="{% url 'products:products_list' %}">
+          <i class="bi bi-box-seam fs-4"></i>
+          <span class="ms-1">Produtos</span>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if perms.inflows.view_inflow %}
+      <li class="nav-item">
+        <a class="nav-link {{ page_inflow_is_active|default:'' }}" href="{% url 'inflows:inflows_list' %}">
+          <i class="bi bi-arrow-down-left-square fs-4"></i>
+          <span class="ms-1">Entradas</span>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if perms.outflows.view_outflow %}
+      <li class="nav-item">
+        <a class="nav-link {{ page_outflow_is_active }}" href="{% url 'outflows:outflows_list' %}">
+          <i class="bi bi-arrow-up-right-square fs-4"></i>
+          <span class="ms-1">Saídas</span>
+        </a>
+      </li>
+      {% endif %}
+
+      {% if user.is_authenticated %}
+      <li class="nav-item">
+        <form action="{% url 'authentication:logout' %}" method="post" id="logout-form" class="nav-link p-0 align-middle">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-link text-decoration-none text-reset nav-link p-0 align-middle">
+            <i class="bi bi-box-arrow-right fs-4 align-middle"></i>
+            <span class="ms-1 align-middle">Sair</span>
+          </button>
+        </form>
+      </li>
+      {% endif %}
+
+    </ul>
+  </div>
+</div>
+
+<!-- Tema JS -->
+<script>
+function applyTheme(theme) {
+  const htmlElement = document.documentElement;
+  const navElement = document.querySelector('nav.navbar');
+  const sidebarButton = document.querySelector('.sidebar-custom-button')
+  const logoLink = document.querySelector('.navbar-brand a');
+  const themeButton = document.getElementById('themeToggle');
+
+  htmlElement.setAttribute('data-bs-theme', theme);
+
+  if (theme === 'light') {
+    navElement.classList.remove('bg-dark');
+    navElement.classList.add('bg-light');
+
+    logoLink.classList.remove('text-white');
+    logoLink.classList.add('text-black');
+
+    themeButton.classList.remove('btn-outline-light');
+    themeButton.classList.add('btn-outline-dark');
+
+    sidebarButton.classList.remove('border-light')
+    sidebarButton.classList.remove('border-dark')
+  } else {
+    navElement.classList.remove('bg-light');
+    navElement.classList.add('bg-dark');
+
+    logoLink.classList.remove('text-black');
+    logoLink.classList.add('text-white');
+
+    themeButton.classList.remove('btn-outline-dark');
+    themeButton.classList.add('btn-outline-light');
+
+    sidebarButton.classList.remove('border-dark')
+    sidebarButton.classList.remove('border-light')
+  }
+}
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-bs-theme') || 'dark';
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  applyTheme(newTheme);
+  localStorage.setItem('themePreference', newTheme);
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  const themeButton = document.getElementById('themeToggle');
+  if (themeButton) {
+    themeButton.addEventListener('click', toggleTheme);
+  }
+  const savedTheme = localStorage.getItem('themePreference');
+  const htmlTheme = document.documentElement.getAttribute('data-bs-theme');
+  const initialTheme = savedTheme || htmlTheme || 'dark';
+  applyTheme(initialTheme);
+});
+</script>
