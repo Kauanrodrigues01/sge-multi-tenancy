@@ -1,6 +1,6 @@
-# SGE - Sistema de Gestão de Estoque
+# SGE Multi Tenancy - Sistema de Gestão de Estoque
 
-O **SGE (Sistema de Gestão de Estoque)** é uma solução completa para o gerenciamento de estoque. Ele oferece ferramentas para controlar produtos, fornecedores, marcas, categorias, entradas e saídas de estoque, com um sistema de notificações automáticas e insights baseados em inteligência artificial.
+O **SGE (Sistema de Gestão de Estoque)** é uma solução completa para o gerenciamento de estoque. Ele oferece ferramentas para controlar produtos, fornecedores, marcas, categorias, entradas e saídas de estoque, com um sistema de notificações automáticas e insights baseados em inteligência artificial. Foi programado para suportar múltiplos usuários com a separação de seus dados.
 
 ---
 
@@ -42,7 +42,7 @@ O **SGE (Sistema de Gestão de Estoque)** é uma solução completa para o geren
 <span id="tecnologias-utilizadas"></span>
 ## **Tecnologias Utilizadas**
 <p align="left">
-  <img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/icons/backend/python.svg" width="40" height="40" alt="Python" />
+  <img src="https://raw.githubusercontent.com/Kauanrodrigues01/Kauanrodrigues01/refs/heads/main/icons/backend/python.svg" width="40" height="40" alt="Python" />
   <img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/icons/backend/django.svg" height="50" alt="Django" />
   <img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/icons/backend/postgresql-light.svg" width="40" height="40" alt="PostgreSQL" />
   <img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/icons/frontend/bootstrap.svg" height="35" alt="BootStrap" />
@@ -62,12 +62,12 @@ O **SGE (Sistema de Gestão de Estoque)** é uma solução completa para o geren
 <span id="integrações"></span>
 ## **Integrações**
 
-<img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/images/evolution-api.png" width="180" alt="Evolution API" />
+<img src="https://raw.githubusercontent.com/Kauanrodrigues01/Kauanrodrigues01/refs/heads/main/images/evolution-api.png" width="180" alt="Evolution API" />
 
 - Envio de mensagens automáticas pelo WhatsApp.
 - Alertas de movimentações e baixo estoque.
 
-<img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/images/gemini.png" width="150" alt="Evolution API" />
+<img src="https://raw.githubusercontent.com/Kauanrodrigues01/Kauanrodrigues01/refs/heads/main/images/gemini.png" width="150" alt="Gemini API" />
 
 - IA para sugestões de reposição e insights de otimização.
 
