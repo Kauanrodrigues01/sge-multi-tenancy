@@ -40,6 +40,9 @@ O **SGE (Sistema de Gestão de Estoque)** é uma solução completa para o geren
 - **Notificações**:
   - Envio de mensagens automáticas via WhatsApp (API da **Evolution**).
   - Envio de e-mails com o próprio Django.
+- **Troca de Tema (Light/Dark):**
+  - Alternância entre temas claro e escuro.
+  - Preferência salva no localStorage do navegador para persistência entre sessões.
 
 ---
 
@@ -114,15 +117,21 @@ O **SGE (Sistema de Gestão de Estoque)** é uma solução completa para o geren
 
 1. Vá ao site da [Google Ai studio](https://aistudio.google.com/apikey) e gere a sua chave de API gratuitamente.
 
-1. Inicie os containers da evolution api:
+2. Inicie os containers da evolution api:
 ```bash
 docker compose -f docker-compose-evolution.yml up -d
 ```
 
-2. Acesse a evolution na url: [http://localhost:8080/manager/](http://localhost:8080/manager/) e crie uma instância para o whatsApp e conecte-se através do QR code.
+3. Acesse a evolution na url: [http://localhost:8080/manager/](http://localhost:8080/manager/) e crie uma instância para o whatsApp e conecte-se através do QR code.
 
-3. Crie um arquivo `.env` na raiz do projeto e adicione as seguintes variáveis:
+4. Crie um arquivo `.env` na raiz do projeto e adicione as seguintes variáveis:
 ```env
+SECRET_KEY=django-insecure-h3y=dr4aic$ts$)z6_ngy%8!dkhd*n05l*wb1nwn+2ml&ep8qv
+DEBUG=True 
+ALLOWED_HOSTS=* 
+LANGUAGE_CODE=pt-br 
+TIME_ZONE=America/Fortaleza
+
 # INTEGRATION WITH GEMINI API
 GEMINI_API_KEY=api-key
 GEMINI_MODEL=gemini-1.5-flash
@@ -145,17 +154,14 @@ SUPERUSER_EMAIL=admin@gmail.com
 SUPERUSER_PASSWORD=admin
 ```
 
-4. Construa e inicie os containers da aplicação:
+5. Construa e inicie os containers da aplicação:
 ```bash
 docker build -t sge-app:0.0.1 .
 docker compose -f docker-compose-dev.yml up -d
 ```
 
-5. Agora os seguintes containers estarão rodando:
+6. Agora os seguintes containers estarão rodando:
    - Aplicativo Django
-   - Celery Worker
-   - Celery Beat
-   - RabbitMQ
    - PostgreSQL
 
-4. Acesse o sistema em: [http://localhost:8000/](http://localhost:8000/)
+7. Acesse o sistema em: [http://localhost:8000/](http://localhost:8000/)
