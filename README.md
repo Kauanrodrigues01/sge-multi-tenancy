@@ -1,5 +1,9 @@
 # SGE Multi Tenancy - Sistema de Gestão de Estoque
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Kauanrodrigues01/Kauanrodrigues01/refs/heads/main/images/projetos/sge/dashboard-sge.png" alt="Dashboard" width="700"/>
+</p>
+
 O **SGE (Sistema de Gestão de Estoque)** é uma solução completa para o gerenciamento de estoque. Ele oferece ferramentas para controlar produtos, fornecedores, marcas, categorias, entradas e saídas de estoque, com um sistema de notificações automáticas e insights baseados em inteligência artificial. Foi programado para suportar múltiplos usuários com a separação de seus dados.
 
 ---
