@@ -144,7 +144,7 @@ SUPERUSER_PASSWORD=admin
 4. Construa e inicie os containers da aplicação:
 ```bash
 docker build -t sge-app:0.0.1 .
-docker compose up -d
+docker compose -f docker-compose-dev.yml up -d
 ```
 
 5. Agora os seguintes containers estarão rodando:
