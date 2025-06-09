@@ -48,13 +48,12 @@ O **SGE (Sistema de Gestão de Estoque)** é uma solução completa para o geren
 
 <span id="tecnologias-utilizadas"></span>
 ## **Tecnologias Utilizadas**
-<p align="left">
-  <img src="https://raw.githubusercontent.com/Kauanrodrigues01/Kauanrodrigues01/refs/heads/main/icons/backend/python.svg" width="40" height="40" alt="Python" />
-  <img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/icons/backend/django.svg" height="50" alt="Django" />
-  <img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/icons/backend/postgresql-light.svg" width="40" height="40" alt="PostgreSQL" />
-  <img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/icons/frontend/bootstrap.svg" height="35" alt="BootStrap" />
-  <img src="https://github.com/Kauanrodrigues01/Kauanrodrigues01/blob/main/icons/frontend/chartjs.svg" width="40" height="40" alt="ChartJS" />
-</p>
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
+![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=for-the-badge&logo=Chart.js&logoColor=white)
 
 - **Back-end**:
   - **Django** para o criação do sistema web e gerenciamento do sistema e envio de e-mails.
