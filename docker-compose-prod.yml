@@ -1,4 +1,5 @@
 services:
+  # Utilizar o dockerfile: Dockerfile-uwsgi para a imagem de produção
   sge:
     image: kauanrodrigues01/sge:latest
     container_name: sge-app
