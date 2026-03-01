@@ -7,6 +7,7 @@ RUN apk add --no-cache --virtual .build-deps \
     ca-certificates gcc postgresql-dev linux-headers musl-dev \
     libffi-dev jpeg-dev zlib-dev && \
     pip install --no-cache -r requirements.txt && \
+    pip install --no-cache --no-deps evolutionapi==0.0.7 && \
     find /usr/local \
         \( -type d -a -name test -o -name tests \) \
         -o \( -type f -a -name '*.pyc' -o -name '*.pyo' \) \
